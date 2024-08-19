@@ -5,9 +5,9 @@ import os
 
 def process_file(path):
     if path.endswith(".csv"):
-        data = pd.read_csv(path)
+        data = pd.read_csv(path, parse_dates=True)
     elif path.endswith(("xlsx", "xls")):
-        data = pd.read_excel(path)
+        data = pd.read_excel(path, parse_dates=True)
     else:
         raise ValueError("File not compatible, please reassess or upload a new file")
 
