@@ -4,10 +4,15 @@ import os
 
 
 def process_file(path):
+    """
+    This folder processes the csv file and check if 
+    it's in line with the requirements and dump it into
+    a json file.
+    """
     if path.endswith(".csv"):
         data = pd.read_csv(path, parse_dates=True)
     elif path.endswith(("xlsx", "xls")):
-        data = pd.read_excel(path, parse_dates=True)
+        data = pd.read_excel(path)
     else:
         raise ValueError("File not compatible, please reassess or upload a new file")
 
