@@ -5,7 +5,7 @@ import os
 
 def process_file(path):
     """
-    This folder processes the csv file and check if 
+    This function processes the csv file and check if 
     it's in line with the requirements and dump it into
     a json file.
     """
