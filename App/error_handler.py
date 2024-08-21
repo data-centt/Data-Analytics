@@ -33,5 +33,3 @@ class ErrorHandler:
             raise ColumnError("Column not available")
 
 
-error_handler = ErrorHandler()
-error_handler.handle_file_error("Budget.xlsx")
