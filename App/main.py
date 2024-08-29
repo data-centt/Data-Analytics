@@ -36,7 +36,13 @@ def main():
             x_column = st.selectbox("Choose X-axis: ", df.columns)
             y_column = st.selectbox("Choose Y-axis: ", [""] + list(df.columns))
 
-            vis.visualize(df, chart_type, x_column, y_column or None)
+         add_col = []
+            if chart_type in ["area chart", "line chart"]:
+                num_col = [col for col in df.columns if col not in [x_column, y_column]
+                           and pd.api.types.is_numeric_dtype(df[col])]
+                add_col = st.multiselect("Select other columns ", options=num_col)
+
+            vis.visualize(df, chart_type, x_column, y_column or None, add_col=add_col)
         else:
             st.error("Failed to read file")
     else:
