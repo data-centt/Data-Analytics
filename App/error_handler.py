@@ -1,5 +1,6 @@
 import os.path
 import pandas as pd
+import streamlit as st
 
 class FileError(Exception):
     pass
@@ -11,6 +12,24 @@ class ColumnError(Exception):
 
 class ChartError(Exception):
     pass
+
+def load_file(file):
+    file_path = file.name
+    if file_path.endswith(".csv"):
+        df = pd.read_csv(file, encoding='utf-8', encoding_errors='ignore')
+    elif file_path.endswith((".xlsx", ".xls")):
+        df = pd.read_excel(file)
+    elif file_path.endswith(".json"):
+        df = pd.read_json(file)
+    else:
+        st.error("Unsupported file type")
+        return None
+
+    for col in df.columns:
+        if pd.api.types.is_datetime64_any_dtype(df[col]):
+            df[col] = pd.to_datetime(df[col]).dt.strftime("%d/%m/%Y")
+
+    return df
 
 
 class ErrorHandler:
