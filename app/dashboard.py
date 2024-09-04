@@ -1,5 +1,5 @@
 import streamlit as st
-from visualization import Visualization
+from visualisation import Visualization
 import pandas as pd
 
 
