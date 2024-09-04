@@ -42,30 +42,30 @@ if current_page == "Home":
         }
         .home-title {
             font-size: 40px;
-            color: #000000; /* Consistent dark text */
+            color: #000000; 
             font-weight: bold;
             margin-bottom: 20px;
         }
         .home-description {
             font-size: 18px;
-            color: #333333; /* Dark gray for readability */
+            color: #333333; 
             margin-top: 10px;
             margin-bottom: 20px;
         }
         .link-button {
             display: inline-block;
             font-size: 16px;
-            color: #FFFFFF; /* White text */
+            color: #FFFFFF; 
             font-weight: bold;
             text-decoration: none;
             padding: 10px 20px;
             border-radius: 5px;
             margin: 10px 5px;
-            background-color: #007BFF; /* Bright blue for visibility */
+            background-color: #007BFF; 
             transition: background-color 0.3s ease;
         }
         .link-button:hover {
-            background-color: #0056b3; /* Slightly darker blue on hover */
+            background-color: #0056b3; 
         }
         .logo-container {
             text-align: center;
@@ -73,7 +73,7 @@ if current_page == "Home":
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9); /* Light background */
+            background-color: rgba(255, 255, 255, 0.9); 
         }
         .logo-container img {
             width: 200px;
@@ -81,27 +81,27 @@ if current_page == "Home":
             height: auto;
         }
         .sub-container {
-            background-color: rgba(255, 255, 255, 0.9); /* Light sub-container background */
+            background-color: rgba(255, 255, 255, 0.9); 
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
             text-align: center;
-            color: #000000; /* Black text for contrast */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adding shadow */
+            color: #000000; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
         }
         .sub-title {
             font-size: 24px;
-            color: #000000; /* Consistent black text */
+            color: #000000; 
             font-weight: bold;
             margin-bottom: 10px;
         }
         .sub-description {
             font-size: 16px;
-            color: #333333; /* Dark gray for readability */
+            color: #333333; 
             margin-bottom: 15px;
         }
         .sub-button {
-            background-color: #28a745; /* Bright green for action buttons */
+            background-color: #28a745; 
             display: block;
             margin: auto;
             color: #FFFFFF; /* White text */
@@ -112,7 +112,7 @@ if current_page == "Home":
             transition: background-color 0.3s ease;
         }
         .sub-button:hover {
-            background-color: #218838; /* Slightly darker green on hover */
+            background-color: #218838; 
         }
         </style>
         """,
