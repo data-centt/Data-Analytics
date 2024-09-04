@@ -27,53 +27,53 @@ if current_page == "Home":
     st.markdown(
         """
         <style>
+        body {
+            background-color: inherit;
+        }
         .container {
             max-width: 850px;
             margin: 0 auto;
             padding: 20px;
             border-radius: 10px;
-            background-color: #f7f9fc;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.85);
             text-align: center;
+            color: #000000; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .home-title {
-            font-size: 36px;
-            color: #097AFA;
+            font-size: 40px;
+            color: #000000; 
             font-weight: bold;
             margin-bottom: 20px;
         }
         .home-description {
             font-size: 18px;
-            color: #34495E;
+            color: #333333; 
             margin-top: 10px;
             margin-bottom: 20px;
         }
         .link-button {
             display: inline-block;
             font-size: 16px;
-            color: #F1E4E8;
+            color: #FFFFFF; 
             font-weight: bold;
             text-decoration: none;
             padding: 10px 20px;
             border-radius: 5px;
             margin: 10px 5px;
+            background-color: #007BFF; 
             transition: background-color 0.3s ease;
         }
-        .github-link {
-            background-color: #333;
-        }
-        .github-link:hover {
-            background-color: #555;
-        }
-        .linkedin-link {
-            background-color: #C5CFDC;
-        }
-        .linkedin-link:hover {
-            background-color: #005582;
+        .link-button:hover {
+            background-color: #0056b3; 
         }
         .logo-container {
             text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
         }
         .logo-container img {
             width: 200px;
@@ -81,27 +81,30 @@ if current_page == "Home":
             height: auto;
         }
         .sub-container {
-            background-color: #eaf2f8;
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: left;
+            text-align: center;
+            color: #000000; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
         }
         .sub-title {
             font-size: 24px;
-            color: #097AFA;
+            color: #000000; 
             font-weight: bold;
             margin-bottom: 10px;
         }
         .sub-description {
             font-size: 16px;
-            color: #34495E;
+            color: #333333; 
             margin-bottom: 15px;
         }
         .sub-button {
-            background-color: #3498db;
-            color: white;
+            background-color: #28a745; 
+            display: block;
+            margin: auto;
+            color: #FFFFFF; /* White text */
             padding: 10px 15px;
             border: none;
             border-radius: 5px;
@@ -109,7 +112,7 @@ if current_page == "Home":
             transition: background-color 0.3s ease;
         }
         .sub-button:hover {
-            background-color: #2980b9;
+            background-color: #218838; 
         }
         </style>
         """,
