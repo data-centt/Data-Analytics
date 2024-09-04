@@ -42,30 +42,30 @@ if current_page == "Home":
         }
         .home-title {
             font-size: 40px;
-            color: #000000; 
+            color: #000000; /* Consistent dark text */
             font-weight: bold;
             margin-bottom: 20px;
         }
         .home-description {
             font-size: 18px;
-            color: #333333; 
+            color: #333333; /* Dark gray for readability */
             margin-top: 10px;
             margin-bottom: 20px;
         }
         .link-button {
             display: inline-block;
             font-size: 16px;
-            color: #FFFFFF; 
+            color: #FFFFFF; /* White text */
             font-weight: bold;
             text-decoration: none;
             padding: 10px 20px;
             border-radius: 5px;
             margin: 10px 5px;
-            background-color: #007BFF; 
+            background-color: #007BFF; /* Bright blue for visibility */
             transition: background-color 0.3s ease;
         }
         .link-button:hover {
-            background-color: #0056b3; 
+            background-color: #0056b3; /* Slightly darker blue on hover */
         }
         .logo-container {
             text-align: center;
@@ -73,7 +73,7 @@ if current_page == "Home":
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.9); /* Light background */
         }
         .logo-container img {
             width: 200px;
@@ -81,27 +81,27 @@ if current_page == "Home":
             height: auto;
         }
         .sub-container {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.9); /* Light sub-container background */
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
             text-align: center;
-            color: #000000; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            color: #000000; /* Black text for contrast */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adding shadow */
         }
         .sub-title {
             font-size: 24px;
-            color: #000000; 
+            color: #000000; /* Consistent black text */
             font-weight: bold;
             margin-bottom: 10px;
         }
         .sub-description {
             font-size: 16px;
-            color: #333333; 
+            color: #333333; /* Dark gray for readability */
             margin-bottom: 15px;
         }
         .sub-button {
-            background-color: #28a745; 
+            background-color: #28a745; /* Bright green for action buttons */
             display: block;
             margin: auto;
             color: #FFFFFF; /* White text */
@@ -112,7 +112,7 @@ if current_page == "Home":
             transition: background-color 0.3s ease;
         }
         .sub-button:hover {
-            background-color: #218838; 
+            background-color: #218838; /* Slightly darker green on hover */
         }
         </style>
         """,
@@ -130,7 +130,6 @@ if current_page == "Home":
 This project is made to deliver powerful data analysis and visualization tools, offering a comprehensive platform for in-depth data exploration 📊. With this project, you can delve into a diverse range of datasets, perform detailed Exploratory Data Analysis (EDA) 🔍, and interact with dynamic dashboards designed to uncover valuable insights 📈. Whether you're a data enthusiast, a seasoned professional, or simply curious about data trends, this project is tailored to make data exploration both accessible and engaging for everyone 🌟.
 
 For any issues you encounter while performing analysis or navigating through the webpage, please refer to the GitHub repository linked below to create an issue 🛠️. Alternatively, feel free to reach out to me directly via LinkedIn for personalized assistance 💬. Your feedback is crucial for improving the project and ensuring a smooth user experience 🚀.
-\n The image above was gotten from https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg
             </p>
             <div>
                 <a class="link-button github-link" href="https://github.com/Daniel15568/Data-Analytics-Dashboard" target="_blank">
@@ -161,6 +160,23 @@ Quickly access essential statistical insights and uncover full information about
         if st.button("Go to Data Page"):
             navigate_to("Data")
 
+        with st.container():
+            st.markdown(
+                """
+                <div class="sub-container">
+                    <div class="sub-title">Dashboard</div>
+                    <p class="sub-description">
+                        View interactive dashboards that offer valuable insights into key metrics and trends within your data 🌟📊. Customize your dashboard to match your specific analytical needs, whether for business or personal analysis 🔧📈.
+
+    Experience the power of interactive dashboards and data insights without the need to subscribe to or download any additional apps. Our dashboards, powered by the robust Plotly Express library, provide dynamic and visually engaging data visualizations 🚀📉. Enjoy open-source business analysis tools at no cost and gain comprehensive insights for free!
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+            if st.button("Go to Dashboard Page"):
+                navigate_to("Dashboard")
+
     with st.container():
         st.markdown(
             """
@@ -168,6 +184,7 @@ Quickly access essential statistical insights and uncover full information about
                 <div class="sub-title">Exploratory Data Analysis ( EDA )</div>
                 <p class="sub-description">
                    Dive into Exploratory Data Analysis (EDA) with our collection of pre-made charts, created using the powerful Matplotlib and Seaborn visualization libraries 🎨📊. Whether you're preparing to apply machine learning techniques or simply looking to uncover statistical insights, these ready-to-use visualizations are designed to provide a deeper statistical understanding of your data 🔍📈. Easily identify patterns, trends, and key insights with these intuitive and informative graphics, and enhance your analytical capabilities effortlessly.
+                   \n The logo obtained from https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg
                 </p>
             </div>
             """,
@@ -176,22 +193,6 @@ Quickly access essential statistical insights and uncover full information about
         if st.button("Go to EDA Page"):
             navigate_to("EDA")
 
-    with st.container():
-        st.markdown(
-            """
-            <div class="sub-container">
-                <div class="sub-title">Custom Dashboard</div>
-                <p class="sub-description">
-                    View interactive dashboards that offer valuable insights into key metrics and trends within your data 🌟📊. Customize your dashboard to match your specific analytical needs, whether for business or personal analysis 🔧📈.
-
-Experience the power of interactive dashboards and data insights without the need to subscribe to or download any additional apps. Our dashboards, powered by the robust Plotly Express library, provide dynamic and visually engaging data visualizations 🚀📉. Enjoy open-source business analysis tools at no cost and gain comprehensive insights for free!
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-        if st.button("Go to Dashboard Page"):
-            navigate_to("Dashboard")
 
 
 elif current_page == "Data":
