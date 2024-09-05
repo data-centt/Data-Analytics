@@ -100,10 +100,10 @@ if current_page == "Home":
         }
 
         .sub-button {
-            background-color: #28a745; /* Bright green for action buttons */
+            background-color: #28a745; 
             display: block;
             margin: auto;
-            color: #FFFFFF; /* White text */
+            color: #FFFFFF; 
             padding: 10px 15px;
             border: none;
             border-radius: 5px;
@@ -113,7 +113,7 @@ if current_page == "Home":
         }
 
         .sub-button:hover {
-            background-color: #218838; /* Slightly darker green on hover */
+            background-color: #218838; 
         }
 
         </style>
