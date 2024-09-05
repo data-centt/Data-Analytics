@@ -1,27 +1,20 @@
 import streamlit as st
-from visualisation import Visualization
+from visualization import Visualization
 import pandas as pd
 
 
 def apply_advanced_css():
     st.markdown("""
         <style>
-            .main-container {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 20px;
+            body {
+                background-color: inherit;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                text-align: center;
             }
-
-            .main .block-container {
-                padding-top: 1rem;
-                padding-bottom: 1rem;
-                padding-left: 2rem;
-                padding-right: 2rem;
-                background-color: #f7f7f9;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                transition: all 0.2s ease-in-out;
-            }
+            
 
             .css-18e3th9 {
                 padding-top: 1rem;  
@@ -30,36 +23,48 @@ def apply_advanced_css():
                 padding-right: 1rem;  
             }
 
-            .stMarkdown h2 {
-                color: #4B0082;
+            .home-title {
+                font-size: 40px;
+                color: #2E86C1; 
                 font-weight: bold;
-                text-align: center;
                 margin-top: 20px;
                 margin-bottom: 20px;
-                text-transform: uppercase;
+                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+                text-align: center;
             }
 
-            .small-checkbox {
-                display: inline-block;
-                margin-right: 10px;
+            .home-description {
+                font-size: 18px;
+                color: var(--text-color-light); 
                 margin-top: 10px;
+                margin-bottom: 20px;
+                text-align: center;
             }
 
+            .sub-title {
+                font-size: 24px;
+                color: #2E86C1; 
+                font-weight: bold;
+                margin-bottom: 10px;
+                text-align: center;
+            }
 
-            .stSelectbox, .stButton {
-                margin-top: 15px;
+            .sub-description {
+                font-size: 16px;
                 margin-bottom: 15px;
+                color: var(--text-color-light); 
+                text-align: center;
             }
-
 
             .visualization-container {
                 padding: 20px;
                 margin-top: 20px;
                 border: 1px solid #ddd;
                 border-radius: 12px;
-                background-color: #ffffff;
+                background-color: var(--container-bg-color);
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
+                color: var(--container-text-color);
             }
 
             .visualization-container:hover {
@@ -67,11 +72,56 @@ def apply_advanced_css():
                 box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
             }
 
+            .link-button {
+                display: inline-block;
+                font-size: 16px;
+                color: #29649e; 
+                font-weight: bold;
+                text-decoration: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                margin: 10px 5px;
+                background-color: #007BFF; 
+                transition: background-color 0.3s ease;
+                text-align: center;
+            }
+
+            .link-button:hover {
+                background-color: #0056b3; 
+            }
+
+            .sub-button {
+                background-color: #28a745; 
+                display: block;
+                margin: auto;
+                color: #FFFFFF; /* White text */
+                padding: 10px 15px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                text-align: center;
+            }
+
+            .sub-button:hover {
+                background-color: #218838; 
+            }
+
+            .logo-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .logo-container img {
+                width: 150px; 
+                max-width: 100%;
+                height: auto;
+            }
+
             @media (max-width: 768px) {
-                .main .block-container {
-                    padding: 1rem;
-                }
-                .stMarkdown h2 {
+                .sub-title {
                     font-size: 20px;
                 }
                 .visualization-container {
@@ -83,24 +133,27 @@ def apply_advanced_css():
 
 
 def render_dashboard_section(section_num):
-    with st.container():
-        st.subheader(f"Visualization {section_num}")
 
-        section_key = f'section_{section_num}'
-        if section_key not in st.session_state:
-            st.session_state[section_key] = {
-                'inputs_confirmed': False,
-                'chart_config': {
-                    'chart_type': None,
-                    'x_column': None,
-                    'y_column': None,
-                    'additional_selected_col': []
-                }
+    st.markdown(f"""
+        <div class="sub-title">Visualisation {section_num}</div>
+    """, unsafe_allow_html=True)
+
+    section_key = f'section_{section_num}'
+    if section_key not in st.session_state:
+        st.session_state[section_key] = {
+            'inputs_confirmed': False,
+            'chart_config': {
+                'chart_type': None,
+                'x_column': None,
+                'y_column': None,
+                'additional_selected_col': []
             }
+        }
 
-        section_state = st.session_state[section_key]
-        vis = Visualization()
+    section_state = st.session_state[section_key]
+    vis = Visualization()
 
+    with st.container():
         if not section_state['inputs_confirmed']:
             chart_type = st.selectbox(f"Select chart for Visualization {section_num}:",
                                       ["scatter plot", "line chart", "bar chart", "histogram",
@@ -133,7 +186,7 @@ def render_dashboard_section(section_num):
                 'additional_selected_col': additional_selected_col
             }
 
-            if st.button(f"Confirm Selections for Visualization {section_num}"):
+            if st.button(f"Confirm Selections for Visualisation {section_num}"):
                 section_state['inputs_confirmed'] = True
         else:
             config = section_state['chart_config']
@@ -150,17 +203,39 @@ def render_dashboard_section(section_num):
             else:
                 vis.visualize(df, config['chart_type'], x_col, y_col, add_col=add_cols)
 
-            reset_input = st.checkbox(f"Reset Visualization {section_num}", key=f'reset_{section_num}', value=False,
+            reset_input = st.checkbox(f"Reset", key=f'reset_{section_num}', value=False,
                                       help="Check to reset visualization inputs.")
             if reset_input:
                 section_state['inputs_confirmed'] = False
 
 
 def main():
-
     apply_advanced_css()
 
-    st.title("Multi-Visualization Dashboard")
+    st.markdown(
+        '<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>',
+        unsafe_allow_html=True)
+
+    st.markdown('<div class="home-title">Dashboard</div>', unsafe_allow_html=True)
+    st.markdown("""
+        <p class="home-description">
+        Welcome to the Dashboard Area! 🎉 This section allows you to choose from four different types of visuals for your data analysis. 📊
+
+You can use a combination of these visuals to tell your data story effectively, whether it's four separate visuals or the same visual for different data partnerships. 🔄
+
+The available visuals are standard storytelling options on MS PowerBI, including:  Pie Chart 🧩,    Treemap 🌳
+ , Bar Chart 📈, and more.
+
+**How to Use:**
+
+1) _Select your visual from the options provided._
+\n 2) _Click "Confirm Selection" to apply your choice._
+\n 3) _If you want to start over, check the "Reset" box to clear your selection._
+\n 4) _Use the navigation page to return to the home screen._
+
+Stay tuned—more visuals are coming soon! 🚀
+        </p>
+    """, unsafe_allow_html=True)
 
     if 'df' in st.session_state and st.session_state['df'] is not None:
         global df
@@ -168,8 +243,9 @@ def main():
 
         for i in range(1, 5):
             render_dashboard_section(i)
+
     else:
-        st.write("**Please upload a dataset on the main page**")
+        st.warning("No dataset available! Please upload data on the 'Data' page.")
 
 
 if __name__ == "__main__":
