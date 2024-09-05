@@ -94,7 +94,7 @@ def apply_advanced_css():
                 background-color: #28a745; 
                 display: block;
                 margin: auto;
-                color: #FFFFFF; /* White text */
+                color: #FFFFFF; 
                 padding: 10px 15px;
                 border: none;
                 border-radius: 5px;
