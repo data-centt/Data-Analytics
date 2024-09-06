@@ -1,203 +1,269 @@
 import streamlit as st
-from eda import main as eda_main
-from data import main as data_main
-from dashboard import main as dashboard_main
+from visualization import Visualization
+import pandas as pd
 
 
-def navigate_to(page_name):
-    st.session_state["current_page"] = page_name
-
-
-if "current_page" not in st.session_state:
-    st.session_state["current_page"] = "Home"
-
-st.sidebar.title("Navigation")
-if st.sidebar.button("Home"):
-    navigate_to("Home")
-if st.sidebar.button("Data"):
-    navigate_to("Data")
-if st.sidebar.button("Dashboard"):
-    navigate_to("Dashboard")
-if st.sidebar.button("EDA"):
-    navigate_to("EDA")
-
-current_page = st.session_state['current_page']
-
-if current_page == "Home":
-    st.markdown(
-        """
+def apply_advanced_css():
+    st.markdown("""
         <style>
-        body {
-            background-color: inherit;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-        }
+            body {
+                background-color: inherit;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                text-align: center;
+            }
+            
 
-        .home-title {
-            font-size: 40px;
-            color: #2E86C1; 
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+            .css-18e3th9 {
+                padding-top: 1rem;  
+                padding-bottom: 1rem;  
+                padding-left: 1rem;  
+                padding-right: 1rem;  
+            }
 
-        .home-description {
-            font-size: 18px;
-            color: #333333; 
-            margin-top: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+            .home-title {
+                font-size: 40px;
+                color: #2E86C1; 
+                font-weight: bold;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
 
-        .link-button {
-            display: inline-block;
-            font-size: 16px;
-            color: #29649e; 
-            font-weight: bold;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin: 10px 5px;
-            background-color: #007BFF; 
-            transition: background-color 0.3s ease;
-            text-align: center;
-        }
+            .home-description {
+                font-size: 18px;
+                color: var(--text-color-light); 
+                margin-top: 10px;
+                margin-bottom: 20px;
+                text-align: center;
+            }
 
-        .link-button:hover {
-            background-color: #0056b3; 
-        }
+            .sub-title {
+                font-size: 24px;
+                color: #2E86C1; 
+                font-weight: bold;
+                margin-bottom: 10px;
+                text-align: center;
+            }
 
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+            .sub-description {
+                font-size: 16px;
+                margin-bottom: 15px;
+                color: var(--text-color-light); 
+                text-align: center;
+            }
 
-        .logo-container img {
-            width: 200px;
-            max-width: 100%;
-            height: auto;
-        }
+            .visualization-container {
+                padding: 20px;
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                border-radius: 12px;
+                background-color: var(--container-bg-color);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                color: var(--container-text-color);
+            }
 
-        .sub-title {
-            font-size: 24px;
-            color: #2E86C1; 
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-        }
+            .visualization-container:hover {
+                transform: scale(1.02);
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            }
 
-        .sub-description {
-            font-size: 16px;
-             
-            margin-bottom: 15px;
-            text-align: center;
-        }
+            .link-button {
+                display: inline-block;
+                font-size: 16px;
+                color: #29649e; 
+                font-weight: bold;
+                text-decoration: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                margin: 10px 5px;
+                background-color: #007BFF; 
+                transition: background-color 0.3s ease;
+                text-align: center;
+            }
 
-        .sub-button {
-            background-color: #28a745; 
-            display: block;
-            margin: auto;
-            color: #FFFFFF; 
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            text-align: center;
-        }
+            .link-button:hover {
+                background-color: #0056b3; 
+            }
 
-        .sub-button:hover {
-            background-color: #218838; 
-        }
+            .sub-button {
+                background-color: #28a745; 
+                display: block;
+                margin: auto;
+                color: #FFFFFF; /* White text */
+                padding: 10px 15px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                text-align: center;
+            }
 
+            .sub-button:hover {
+                background-color: #218838; 
+            }
+
+            .logo-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .logo-container img {
+                width: 150px; 
+                max-width: 100%;
+                height: auto;
+            }
+
+            @media (max-width: 768px) {
+                .sub-title {
+                    font-size: 20px;
+                }
+                .visualization-container {
+                    padding: 15px;
+                }
+            }
         </style>
-        """,
-        unsafe_allow_html=True
-    )
+    """, unsafe_allow_html=True)
 
+
+def initialize_session_state(section_num):
+    """Initialize session state for a specific visualization section."""
+    section_key = f'section_{section_num}'
+    if section_key not in st.session_state:
+        st.session_state[section_key] = {
+            'inputs_confirmed': False,
+            'chart_config': {
+                'chart_type': None,
+                'x_column': None,
+                'y_column': None,
+                'additional_selected_col': []
+            }
+        }
+
+
+def confirm_selections(section_num):
+
+    section_key = f'section_{section_num}'
+    st.session_state[section_key]['inputs_confirmed'] = True
+
+
+def reset_visualization(section_num):
+    section_key = f'section_{section_num}'
+    st.session_state[section_key]['inputs_confirmed'] = False
+
+
+def render_dashboard_section(section_num):
+    initialize_session_state(section_num)
+    section_key = f'section_{section_num}'
+    section_state = st.session_state[section_key]
+    vis = Visualization()
+
+    st.markdown(f"<div class='sub-title'>Visualization {section_num}</div>", unsafe_allow_html=True)
+
+    if not section_state['inputs_confirmed']:
+        chart_type = st.selectbox(
+            f"Select chart for Visualization {section_num}:",
+            ["scatter plot", "line chart", "bar chart", "histogram", "area chart", "pie chart", "treemap"],
+            key=f'chart_type_{section_num}'
+        )
+
+        x_label = "X-axis"
+        y_label = "Y-axis"
+
+        if chart_type in ["pie chart", "treemap"]:
+            x_label = "Values"
+            y_label = "Labels"
+
+        if chart_type == "scatter plot":
+            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+            y_columns = x_columns
+        elif chart_type in ["treemap", "bar chart", "line chart", "area chart"]:
+            x_columns = [col for col in df.columns if not pd.api.types.is_numeric_dtype(df[col])]
+            y_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+        elif chart_type == "histogram":
+            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+            y_columns = []
+        elif chart_type in ["treemap", "pie chart"]:
+            y_columns = [col for col in df.columns if not pd.api.types.is_numeric_dtype(df[col])]
+            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+        else:
+            x_columns = df.columns
+            y_columns = df.columns
+
+        x_column = st.selectbox(f"Choose {x_label} for Visualization {section_num}:", x_columns, key=f'x_column_{section_num}')
+        y_column = st.selectbox(f"Choose {y_label} for Visualization {section_num}:", [""] + list(y_columns), key=f'y_column_{section_num}') if chart_type not in ["histogram"] else None
+
+        additional_selected_col = []
+        if chart_type in ["area chart", "line chart"] and st.checkbox(f"Add Additional values for Y-axis in Visualization {section_num}", key=f'add_values_{section_num}'):
+            num_col = [col for col in df.columns if col not in [x_column, y_column] and pd.api.types.is_numeric_dtype(df[col])]
+            additional_selected_col = st.multiselect(f"Select other columns for Visualization {section_num}:", options=num_col, key=f'additional_cols_{section_num}')
+
+        section_state['chart_config'] = {
+            'chart_type': chart_type,
+            'x_column': x_column,
+            'y_column': y_column if y_column else None,
+            'additional_selected_col': additional_selected_col
+        }
+
+        st.button(f"Confirm Selections for Visualization {section_num}", on_click=confirm_selections, args=(section_num,), key=f'confirm_{section_num}')
+    else:
+        config = section_state['chart_config']
+        x_col = config['x_column']
+        y_col = config['y_column']
+        add_cols = config['additional_selected_col']
+
+        if config['chart_type'] == "histogram":
+            vis.histogram(df, x_col)
+        elif config['chart_type'] == "treemap":
+            vis.treemap(df, x_col, y_col if y_col else x_col)
+        elif config['chart_type'] == "pie chart":
+            vis.pie_chart(df, values=x_col, names=y_col if y_col else x_col)
+        else:
+            vis.visualize(df, config['chart_type'], x_col, y_col, add_col=add_cols)
+
+        st.checkbox(f"Reset", on_change=reset_visualization, args=(section_num,), key=f'reset_{section_num}')
+
+def main():
+    apply_advanced_css()
     st.markdown('<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="home-title">Dashboard</div>', unsafe_allow_html=True)
+    st.markdown("""
+        <p class="home-description">
+        Welcome to the Dashboard Area! 🎉 This section allows you to choose from four different types of visuals for your data analysis. 📊
 
-    st.markdown(
-        """
-            <div class="home-title">Data Analytics!</div>
-            <p class="home-description">
-                
-This project was made to deliver powerful data analysis and visualization tools, offering a comprehensive platform for in-depth data exploration 📊. With this project, you can delve into a diverse range of datasets, perform detailed Exploratory Data Analysis (EDA) 🔍, and interact with dynamic dashboards designed to uncover valuable insights 📈. Whether you're a data enthusiast, a seasoned professional, or simply curious about data trends, this project is tailored to make data exploration both accessible and engaging for everyone 🌟.
+You can use a combination of these visuals to tell your data story effectively, whether it's four separate visuals or the same visual for different data partnerships. 🔄
 
-For any issues you encounter while performing analysis or navigating through the webpage, please refer to the GitHub repository linked below to create an issue 🛠️. Alternatively, feel free to reach out to me directly via LinkedIn for personalized assistance 💬. Your feedback is crucial for improving the project and ensuring a smooth user experience 🚀.
-\n For maximum viewing and navigating experience, please turn on light-mode. It can be found in settings > theme
-            </p>
-            <div>
-                <a class="link-button github-link" href="https://github.com/Daniel15568/Data-Analytics-Dashboard" target="_blank">
-                    👉 GitHub Repository
-                </a>
-                <a class="link-button linkedin-link" href="https://www.linkedin.com/in/daniel15568" target="_blank">
-                    👨‍💻 Connect on LinkedIn
-                </a>
-            </div>
-        """,
-        unsafe_allow_html=True
-    )
-    with st.container():
-        st.markdown(
-            """
-            
-                <div class="sub-title">Data</div>
-                <p class="sub-description">
-                    Upload and explore your datasets with ease! 📤 Whether you choose to upload your own data or utilize one of the provided sample datasets, you’ll have the tools to perform comprehensive analyses 🔍. Dive into detailed statistical summaries and gain a thorough understanding of your data with our intuitive interface 📊.
+The available visuals are standard storytelling options on MS PowerBI, including:  Pie Chart 🧩,    Treemap 🌳
+ , Bar Chart 📈, and more.
 
-Quickly access essential statistical insights and uncover full information about your datasets to drive informed decisions and discoveries. 📈✨
-                </p>
-            
-            """,
-            unsafe_allow_html=True
-        )
-        if st.button("Go to Data Page"):
-            navigate_to("Data")
+**How to Use:**
 
-        with st.container():
-            st.markdown(
-                """
-                
-                    <div class="sub-title">Dashboard</div>
-                    <p class="sub-description">
-                        View interactive dashboards that offer valuable insights into key metrics and trends within your data 🌟📊. Customize your dashboard to match your specific analytical needs, whether for business or personal analysis 🔧📈.
+1) _Select your visual from the options provided._
+\n 2) _Click "Confirm Selection" to apply your choice._
+\n 3) _If you want to start over, check the "Reset" box to clear your selection._
+\n 4) _Use the navigation page to return to the home screen._
 
-    Experience the power of interactive dashboards and data insights without the need to subscribe to or download any additional apps. Our dashboards, powered by the robust Plotly Express library, provide dynamic and visually engaging data visualizations 🚀📉. Enjoy open-source business analysis tools at no cost and gain comprehensive insights for free!
-                    </p>
-               
-                """,
-                unsafe_allow_html=True
-            )
-            if st.button("Go to Dashboard Page"):
-                navigate_to("Dashboard")
+Stay tuned—more visuals are coming soon! 🚀 📊
+        </p>
+    """, unsafe_allow_html=True)
 
-    with st.container():
-        st.markdown(
-            """
-            
-                <div class="sub-title">\n Exploratory Data Analysis ( EDA )</div>
-                <p class="sub-description">
-                   \n \n \n Dive into Exploratory Data Analysis (EDA) with our collection of pre-made charts, created using the powerful Matplotlib and Seaborn visualization libraries 🎨📊. Whether you're preparing to apply machine learning techniques or simply looking to uncover statistical insights, these ready-to-use visualizations are designed to provide a deeper statistical understanding of your data 🔍📈. Easily identify patterns, trends, and key insights with these intuitive and informative graphics, and enhance your analytical capabilities effortlessly.
-                   \n The logo obtained from https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg
-                </p>
-            
-            """,
-            unsafe_allow_html=True
-        )
-        if st.button("Go to EDA Page"):
-            navigate_to("EDA")
+    if 'df' in st.session_state and st.session_state['df'] is not None:
+        global df
+        df = st.session_state['df']
+
+        for i in range(1, 5):
+            render_dashboard_section(i)
+
+    else:
+        st.warning("No dataset available! Please upload data on the 'Data' page.")
 
 
-elif current_page == "Data":
-    data_main()
-elif current_page == "Dashboard":
-    dashboard_main()
-elif current_page == "EDA":
-    eda_main()
+if __name__ == "__main__":
+    main()
+
