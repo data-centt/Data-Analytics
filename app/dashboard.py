@@ -1,269 +1,405 @@
+from plotly import express as px
+from error_handler import ColumnError, ChartError, ErrorHandler
+import plotly.graph_objects as go
 import streamlit as st
-from visualization import Visualization
 import pandas as pd
 
 
-def apply_advanced_css():
-    st.markdown("""
-        <style>
-            body {
-                background-color: inherit;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-                text-align: center;
-            }
-            
+class Visualization:
+    def __init__(self):
+        self.error_handler = ErrorHandler()
+        self.colors = ['blue', 'red', 'green', 'orange', 'purple', 'brown', 'pink', 'grey']
+        self.color_index = 0
 
-            .css-18e3th9 {
-                padding-top: 1rem;  
-                padding-bottom: 1rem;  
-                padding-left: 1rem;  
-                padding-right: 1rem;  
-            }
+    def get_next_color(self):
+        color = self.colors[self.color_index % len(self.colors)]
+        self.color_index += 1
+        return color
 
-            .home-title {
-                font-size: 40px;
-                color: #2E86C1; 
-                font-weight: bold;
-                margin-top: 20px;
-                margin-bottom: 20px;
-                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-                text-align: center;
-            }
+    def bar_chart(self, df, x_column, y_column=None):
+        try:
+            self.error_handler.handle_column(df, x_column)
+            if y_column:
+                self.error_handler.handle_column(df, y_column)
+            if y_column:
+                fig = px.bar(data_frame=df, x=x_column, y=y_column, title=f"Bar chart of {x_column} against {y_column}")
+                fig.update_xaxes(showgrid=False)
+                fig.update_yaxes(showgrid=False)
+            else:
+                fig = px.bar(data_frame=df, x=x_column, title=f"Bar Chart of {x_column}")
+                fig.update_xaxes(showgrid=False)
+                fig.update_yaxes(showgrid=False)
+            fig.update_layout(
+                title=dict(
+                    font=dict(size=14),
+                    x=0.5
+                ),
+                margin=dict(l=20, r=20, t=30, b=20),
+                xaxis=dict(tickangle=45),
+                yaxis=dict(showgrid=False),
+                height=300
+            )
 
-            .home-description {
-                font-size: 18px;
-                color: var(--text-color-light); 
-                margin-top: 10px;
-                margin-bottom: 20px;
-                text-align: center;
-            }
+            st.plotly_chart(fig)
+        except ColumnError as e:
+            st.error(str(e))
 
-            .sub-title {
-                font-size: 24px;
-                color: #2E86C1; 
-                font-weight: bold;
-                margin-bottom: 10px;
-                text-align: center;
-            }
+    def line_chart(self, df, x_column, y_column, add_col=None):
+        try:
+            self.error_handler.handle_column(df, x_column)
+            self.error_handler.handle_column(df, y_column)
 
-            .sub-description {
-                font-size: 16px;
-                margin-bottom: 15px;
-                color: var(--text-color-light); 
-                text-align: center;
-            }
+            df_agg = df.groupby(x_column, as_index=False)[y_column].sum()
+            df_agg = df_agg.sort_values(by=x_column)
 
-            .visualization-container {
-                padding: 20px;
-                margin-top: 20px;
-                border: 1px solid #ddd;
-                border-radius: 12px;
-                background-color: var(--container-bg-color);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-                color: var(--container-text-color);
-            }
+            fig = px.line(
+                data_frame=df_agg,
+                x=x_column,
+                y=y_column,
+                title=f"Line Chart of {x_column} against {y_column}"
+            )
 
-            .visualization-container:hover {
-                transform: scale(1.02);
-                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-            }
+            if add_col:
+                for col in add_col:
+                    if col in df.columns and pd.api.types.is_numeric_dtype(df[col]):
+                        df_add = df.groupby(x_column, as_index=False)[col].sum()
+                        df_add = df_add.sort_values(by=x_column)
 
-            .link-button {
-                display: inline-block;
-                font-size: 16px;
-                color: #29649e; 
-                font-weight: bold;
-                text-decoration: none;
-                padding: 10px 20px;
-                border-radius: 5px;
-                margin: 10px 5px;
-                background-color: #007BFF; 
-                transition: background-color 0.3s ease;
-                text-align: center;
-            }
+                        fig.add_trace(
+                            go.Scatter(
+                                x=df_add[x_column],
+                                y=df_add[col],
+                                mode="lines",
+                                name=f"{col}",
+                                line=dict(color=self.get_next_color())
+                            )
+                        )
 
-            .link-button:hover {
-                background-color: #0056b3; 
-            }
+            fig.update_layout(
+                title={
+                    'text': f"Line Chart of {x_column} against {y_column}",
+                    'y': 0.9,
+                    'x': 0.5,
+                    'xanchor': 'center',
+                    'yanchor': 'top',
+                    'font': {
+                        'size': 15
+                    }
+                },
+                xaxis_title=f"{x_column}",
+                yaxis_title=f"{y_column}",
+                xaxis=dict(
+                    showline=True,
+                    showgrid=False,
+                    showticklabels=True,
+                    linecolor='rgb(204, 204, 204)',
+                    linewidth=2,
+                    ticks='outside',
+                    tickfont=dict(
+                        family='Arial',
+                        size=12,
+                        color='rgb(82, 82, 82)',
+                    ),
+                ),
+                yaxis=dict(
+                    showline=True,
+                    showgrid=False,
+                    showticklabels=True,
+                    linecolor='rgb(0, 0, 224)',
+                    linewidth=2,
+                    ticks='outside',
+                    tickfont=dict(
+                        family='New Times Roman',
+                        size=12,
+                        color='rgb(82, 82, 82)',
+                    ),
+                ),
+                autosize=True,
+                margin=dict(
+                    autoexpand=True,
+                    l=100,
+                    r=20,
+                    t=110,
+                ),
+                showlegend=True,
+                plot_bgcolor='white'
+            )
+            fig.update_traces(mode='lines', marker=dict(size=5, line=dict(width=1)))
 
-            .sub-button {
-                background-color: #28a745; 
-                display: block;
-                margin: auto;
-                color: #FFFFFF; /* White text */
-                padding: 10px 15px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-                text-align: center;
-            }
+            st.plotly_chart(fig)
+        except ColumnError as e:
+            st.error(str(e))
 
-            .sub-button:hover {
-                background-color: #218838; 
-            }
+    def histogram(self, df, column):
+        try:
+            self.error_handler.handle_column(df, column)
+            bins = st.slider("input bins", min_value=50, max_value=200, step=10)
+            fig = px.histogram(data_frame=df, x=column, nbins=bins, title=f"Histogram of {column}")
+            fig.update_layout(
+                title={
+                    'text': f"Histogram of {column}",
+                    'y': 0.9,
+                    'x': 0.5,
+                    'xanchor': 'center',
+                    'yanchor': 'top',
+                    'font': {
+                        'size': 20
+                    }
+                },
+                xaxis_title=f"{column}",
+                xaxis=dict(
+                    showline=True,
+                    showgrid=False,
+                    showticklabels=True,
+                    linecolor='rgb(204, 204, 204)',
+                    linewidth=2,
+                    ticks='outside',
+                    tickfont=dict(
+                        family='Arial',
+                        size=12,
+                        color='rgb(82, 82, 82)',
+                    ),
+                ),
+                yaxis=dict(
+                    showline=True,
+                    showgrid=False,
+                    showticklabels=True,
+                    linecolor='rgb(0, 0, 224)',
+                    linewidth=2,
+                    ticks='outside',
+                    tickfont=dict(
+                        family='New Times Roman',
+                        size=12,
+                        color='rgb(82, 82, 82)',
+                    ),
+                ),
+                autosize=True,
+                margin=dict(
+                    autoexpand=True,
+                    l=100,
+                    r=20,
+                    t=110,
+                ),
+                showlegend=False,
+                plot_bgcolor='white'
+            )
+            fig.update_traces(marker=dict(line=dict(width=1, color='black')))
 
-            .logo-container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-bottom: 20px;
-            }
+            st.plotly_chart(fig)
 
-            .logo-container img {
-                width: 150px; 
-                max-width: 100%;
-                height: auto;
-            }
+        except ColumnError as e:
+            st.error(str(e))
 
-            @media (max-width: 768px) {
-                .sub-title {
-                    font-size: 20px;
-                }
-                .visualization-container {
-                    padding: 15px;
-                }
-            }
-        </style>
-    """, unsafe_allow_html=True)
+    def scatterplot(self, df, x_column, y_column):
+        try:
+            self.error_handler.handle_column(df, x_column)
+            self.error_handler.handle_column(df, y_column)
+            fig = px.scatter(data_frame=df, x=x_column, y=y_column, title=f"Scatter Plot of {x_column} and {y_column}")
+            fig.update_layout(
+                title={
+                    'text': f"Scatter Plot of {x_column} and {y_column}",
+                    'y': 0.9,
+                    'x': 0.5,
+                    'xanchor': 'center',
+                    'yanchor': 'top',
+                    'font': {
+                        'size': 20
+                    }
+                },
+                xaxis_title=f"{x_column}",
+                yaxis_title=f"{y_column}",
+                xaxis=dict(
+                    showline=False,
+                    showgrid=False,
+                    showticklabels=True,
+                    linecolor='rgb(204, 204, 204)',
+                    linewidth=2,
+                    ticks='outside',
+                    tickfont=dict(
+                        family='Arial',
+                        size=12,
+                        color='rgb(82, 82, 82)',
+                    ),
+                ),
+                yaxis=dict(
+                    showline=False,
+                    showgrid=False,
+                    showticklabels=True,
+                    linecolor='rgb(0, 0, 224)',
+                    linewidth=2,
+                    ticks='outside',
+                    tickfont=dict(
+                        family='New Times Roman',
+                        size=12,
+                        color='rgb(82, 82, 82)',
+                    ),
+                ),
+                autosize=True,
+                margin=dict(
+                    autoexpand=True,
+                    l=100,
+                    r=20,
+                    t=110,
+                ),
+                showlegend=False,
+                plot_bgcolor='white'
+            )
 
+            st.plotly_chart(fig)
 
-def initialize_session_state(section_num):
-    """Initialize session state for a specific visualization section."""
-    section_key = f'section_{section_num}'
-    if section_key not in st.session_state:
-        st.session_state[section_key] = {
-            'inputs_confirmed': False,
-            'chart_config': {
-                'chart_type': None,
-                'x_column': None,
-                'y_column': None,
-                'additional_selected_col': []
-            }
-        }
+        except ColumnError as e:
+            st.error(str(e))
 
+    def treemap(self, df, labels, values):
+        try:
+            self.error_handler.handle_column(df, labels)
+            self.error_handler.handle_column(df, values)
+            fig = px.treemap(data_frame=df, path=[labels], values=values)
 
-def confirm_selections(section_num):
+            fig.update_layout(
+                title={
+                    'text': f"Treemap of {labels}",
+                    'y': 0.95,
+                    'x': 0.5,
+                    'xanchor': 'center',
+                    'yanchor': 'top',
+                    'font': {
+                        'size': 20
+                    }
+                },
+                autosize=True,
+                margin=dict(
+                    autoexpand=True,
+                    l=50,
+                    r=50,
+                    t=70,
+                ),
+                plot_bgcolor='white'
+            )
+            fig.update_traces(marker=dict(line=dict(width=2, color='rgba(0, 0, 0, 0.2)')))
+            st.plotly_chart(fig)
+        except ColumnError as e:
+            st.error(str(e))
 
-    section_key = f'section_{section_num}'
-    st.session_state[section_key]['inputs_confirmed'] = True
+    def pie_chart(self, df, values, names):
+        try:
+            self.error_handler.handle_column(df, values)
+            self.error_handler.handle_column(df, names)
+            df_agg = df.groupby(names, as_index=False)[values].sum()
+            fig = px.pie(data_frame=df_agg, names=names, values=values)
+            fig.update_layout(
+                title={
+                    'text': f"Pie Chart of {values} by {names}",
+                    'y': 0.9,
+                    'x': 0.5,
+                    'xanchor': 'center',
+                    'yanchor': 'top',
+                    'font': {
+                        'size': 20
+                    }
+                },
+                showlegend=True
+            )
+            st.plotly_chart(fig)
+        except ChartError as e:
+            st.error(str(e))
 
+    def area(self, df, x_col, y_col, add_col=None):
+        try:
+            self.error_handler.handle_column(df, x_col)
+            self.error_handler.handle_column(df, y_col)
+            df_agg = df.groupby(x_col, as_index=False)[y_col].sum()
 
-def reset_visualization(section_num):
-    section_key = f'section_{section_num}'
-    st.session_state[section_key]['inputs_confirmed'] = False
+            fig = px.area(data_frame=df_agg, x=x_col, y=y_col, title=f"Area chart of {x_col} and {y_col}")
 
+            if add_col:
+                for col in add_col:
+                    if col in df.columns and pd.api.types.is_numeric_dtype(df[col]):
+                        df_add = df.groupby(x_col, as_index=False)[col].sum()
+                        fig.add_trace(
+                            go.Scatter(
+                                x=df_add[x_col],
+                                y=df_add[col],
+                                mode='lines',
+                                fill='tonexty',
+                                name=col
+                            )
+                        )
+                    else:
+                        st.warning(f"{col} not compatible")
+            fig.update_layout(
+                title={
+                    'text': f"Line Chart of {x_col} against {y_col}",
+                    'y': 0.9,
+                    'x': 0.5,
+                    'xanchor': 'center',
+                    'yanchor': 'top',
+                    'font': {
+                        'size': 20
+                    }
+                },
+                xaxis_title=f"{x_col}",
+                yaxis_title=f"{y_col}",
+                xaxis=dict(
+                    showline=True,
+                    showgrid=False,
+                    showticklabels=True,
+                    linecolor='rgb(204, 204, 204)',
+                    linewidth=2,
+                    ticks='outside',
+                    tickfont=dict(
+                        family='Arial',
+                        size=12,
+                        color='rgb(82, 82, 82)',
+                    ),
+                ),
+                yaxis=dict(
+                    showline=True,
+                    showgrid=False,
+                    showticklabels=False,
+                    linecolor='rgb(0, 0, 224)',
+                    linewidth=2,
+                    ticks='outside',
+                    tickfont=dict(
+                        family='New Times Roman',
+                        size=12,
+                        color='rgb(82, 82, 82)',
+                    ),
+                ),
+                autosize=True,
+                margin=dict(
+                    autoexpand=True,
+                    l=100,
+                    r=20,
+                    t=110,
+                ),
+                showlegend=True,
+                plot_bgcolor='white'
+            )
+            st.plotly_chart(fig)
+        except ChartError as e:
+            st.error(str(e))
 
-def render_dashboard_section(section_num):
-    initialize_session_state(section_num)
-    section_key = f'section_{section_num}'
-    section_state = st.session_state[section_key]
-    vis = Visualization()
+    def visualize(self, df, chart_type, x_column, y_column=None, add_col=None):
+        chart_types = ["scatter plot", "line chart", "bar chart", "histogram", "area chart", "pie chart", "treemap"]
+        try:
+            self.error_handler.chart_error(chart_type, chart_types)
+            if chart_type == "bar chart":
+                self.bar_chart(df, x_column, y_column)
+            elif chart_type == "histogram":
+                self.histogram(df, x_column)
+            elif chart_type == "line chart":
+                self.line_chart(df, x_column, y_column, add_col=add_col)
+            elif chart_type == "scatter plot":
+                self.scatterplot(df, x_column, y_column)
+            elif chart_type == "pie chart":
+                if not x_column and not y_column:
+                    raise ChartError("Please input both columns")
+                self.pie_chart(df, values=x_column, names=y_column)
+            elif chart_type == "area chart":
+                self.area(df, x_column, y_column, add_col=add_col)
+            elif chart_type == "treemap":
+                self.treemap(df, x_column, y_column)
 
-    st.markdown(f"<div class='sub-title'>Visualization {section_num}</div>", unsafe_allow_html=True)
-
-    if not section_state['inputs_confirmed']:
-        chart_type = st.selectbox(
-            f"Select chart for Visualization {section_num}:",
-            ["scatter plot", "line chart", "bar chart", "histogram", "area chart", "pie chart", "treemap"],
-            key=f'chart_type_{section_num}'
-        )
-
-        x_label = "X-axis"
-        y_label = "Y-axis"
-
-        if chart_type in ["pie chart", "treemap"]:
-            x_label = "Values"
-            y_label = "Labels"
-
-        if chart_type == "scatter plot":
-            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
-            y_columns = x_columns
-        elif chart_type in ["treemap", "bar chart", "line chart", "area chart"]:
-            x_columns = [col for col in df.columns if not pd.api.types.is_numeric_dtype(df[col])]
-            y_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
-        elif chart_type == "histogram":
-            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
-            y_columns = []
-        elif chart_type in ["treemap", "pie chart"]:
-            y_columns = [col for col in df.columns if not pd.api.types.is_numeric_dtype(df[col])]
-            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
-        else:
-            x_columns = df.columns
-            y_columns = df.columns
-
-        x_column = st.selectbox(f"Choose {x_label} for Visualization {section_num}:", x_columns, key=f'x_column_{section_num}')
-        y_column = st.selectbox(f"Choose {y_label} for Visualization {section_num}:", [""] + list(y_columns), key=f'y_column_{section_num}') if chart_type not in ["histogram"] else None
-
-        additional_selected_col = []
-        if chart_type in ["area chart", "line chart"] and st.checkbox(f"Add Additional values for Y-axis in Visualization {section_num}", key=f'add_values_{section_num}'):
-            num_col = [col for col in df.columns if col not in [x_column, y_column] and pd.api.types.is_numeric_dtype(df[col])]
-            additional_selected_col = st.multiselect(f"Select other columns for Visualization {section_num}:", options=num_col, key=f'additional_cols_{section_num}')
-
-        section_state['chart_config'] = {
-            'chart_type': chart_type,
-            'x_column': x_column,
-            'y_column': y_column if y_column else None,
-            'additional_selected_col': additional_selected_col
-        }
-
-        st.button(f"Confirm Selections for Visualization {section_num}", on_click=confirm_selections, args=(section_num,), key=f'confirm_{section_num}')
-    else:
-        config = section_state['chart_config']
-        x_col = config['x_column']
-        y_col = config['y_column']
-        add_cols = config['additional_selected_col']
-
-        if config['chart_type'] == "histogram":
-            vis.histogram(df, x_col)
-        elif config['chart_type'] == "treemap":
-            vis.treemap(df, x_col, y_col if y_col else x_col)
-        elif config['chart_type'] == "pie chart":
-            vis.pie_chart(df, values=x_col, names=y_col if y_col else x_col)
-        else:
-            vis.visualize(df, config['chart_type'], x_col, y_col, add_col=add_cols)
-
-        st.checkbox(f"Reset", on_change=reset_visualization, args=(section_num,), key=f'reset_{section_num}')
-
-def main():
-    apply_advanced_css()
-    st.markdown('<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>', unsafe_allow_html=True)
-    st.markdown('<div class="home-title">Dashboard</div>', unsafe_allow_html=True)
-    st.markdown("""
-        <p class="home-description">
-        Welcome to the Dashboard Area! 🎉 This section allows you to choose from four different types of visuals for your data analysis. 📊
-
-You can use a combination of these visuals to tell your data story effectively, whether it's four separate visuals or the same visual for different data partnerships. 🔄
-
-The available visuals are standard storytelling options on MS PowerBI, including:  Pie Chart 🧩,    Treemap 🌳
- , Bar Chart 📈, and more.
-
-**How to Use:**
-
-1) _Select your visual from the options provided._
-\n 2) _Click "Confirm Selection" to apply your choice._
-\n 3) _If you want to start over, check the "Reset" box to clear your selection._
-\n 4) _Use the navigation page to return to the home screen._
-
-Stay tuned—more visuals are coming soon! 🚀 📊
-        </p>
-    """, unsafe_allow_html=True)
-
-    if 'df' in st.session_state and st.session_state['df'] is not None:
-        global df
-        df = st.session_state['df']
-
-        for i in range(1, 5):
-            render_dashboard_section(i)
-
-    else:
-        st.warning("No dataset available! Please upload data on the 'Data' page.")
-
-
-if __name__ == "__main__":
-    main()
-
+        except (ChartError, ColumnError) as e:
+            st.error(str(e))
