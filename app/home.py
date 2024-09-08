@@ -12,16 +12,14 @@ if "current_page" not in st.session_state:
     st.session_state["current_page"] = "Home"
 
 st.sidebar.title("Navigation")
-if st.sidebar.button("Home"):
-    navigate_to("Home")
-if st.sidebar.button("Data"):
-    navigate_to("Data")
-if st.sidebar.button("Dashboard"):
-    navigate_to("Dashboard")
-if st.sidebar.button("EDA"):
-    navigate_to("EDA")
+st.sidebar.button("Home", on_click=navigate_to, args=("Home",))
+st.sidebar.button("Data", on_click=navigate_to, args=("Data",))
+st.sidebar.button("Dashboard", on_click=navigate_to, args=("Dashboard",))
+st.sidebar.button("EDA", on_click=navigate_to, args=("EDA",))
+
 
 current_page = st.session_state['current_page']
+
 
 if current_page == "Home":
     st.markdown(
@@ -94,7 +92,7 @@ if current_page == "Home":
 
         .sub-description {
             font-size: 16px;
-             
+
             margin-bottom: 15px;
             text-align: center;
         }
@@ -121,13 +119,15 @@ if current_page == "Home":
         unsafe_allow_html=True
     )
 
-    st.markdown('<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>',
+        unsafe_allow_html=True)
 
     st.markdown(
         """
             <div class="home-title">Data Analytics!</div>
             <p class="home-description">
-                
+
 This project was made to deliver powerful data analysis and visualization tools, offering a comprehensive platform for in-depth data exploration 📊. With this project, you can delve into a diverse range of datasets, perform detailed Exploratory Data Analysis (EDA) 🔍, and interact with dynamic dashboards designed to uncover valuable insights 📈. Whether you're a data enthusiast, a seasoned professional, or simply curious about data trends, this project is tailored to make data exploration both accessible and engaging for everyone 🌟.
 
 For any issues you encounter while performing analysis or navigating through the webpage, please refer to the GitHub repository linked below to create an issue 🛠️. Alternatively, feel free to reach out to me directly via LinkedIn for personalized assistance 💬. Your feedback is crucial for improving the project and ensuring a smooth user experience 🚀.
@@ -147,53 +147,49 @@ For any issues you encounter while performing analysis or navigating through the
     with st.container():
         st.markdown(
             """
-            
+
                 <div class="sub-title">Data</div>
                 <p class="sub-description">
                     Upload and explore your datasets with ease! 📤 Whether you choose to upload your own data or utilize one of the provided sample datasets, you’ll have the tools to perform comprehensive analyses 🔍. Dive into detailed statistical summaries and gain a thorough understanding of your data with our intuitive interface 📊.
 
 Quickly access essential statistical insights and uncover full information about your datasets to drive informed decisions and discoveries. 📈✨
                 </p>
-            
+
             """,
             unsafe_allow_html=True
         )
-        if st.button("Go to Data Page"):
-            navigate_to("Data")
+        st.button("Go to Data Page", on_click=navigate_to, args=("Data",))
 
         with st.container():
             st.markdown(
                 """
-                
+
                     <div class="sub-title">Dashboard</div>
                     <p class="sub-description">
                         View interactive dashboards that offer valuable insights into key metrics and trends within your data 🌟📊. Customize your dashboard to match your specific analytical needs, whether for business or personal analysis 🔧📈.
 
     Experience the power of interactive dashboards and data insights without the need to subscribe to or download any additional apps. Our dashboards, powered by the robust Plotly Express library, provide dynamic and visually engaging data visualizations 🚀📉. Enjoy open-source business analysis tools at no cost and gain comprehensive insights for free!
                     </p>
-               
+
                 """,
                 unsafe_allow_html=True
             )
-            if st.button("Go to Dashboard Page"):
-                navigate_to("Dashboard")
+            st.button("Go to Dashboard Page", on_click=navigate_to, args=("Dashboard",))
 
     with st.container():
         st.markdown(
             """
-            
+
                 <div class="sub-title">\n Exploratory Data Analysis ( EDA )</div>
                 <p class="sub-description">
                    \n \n \n Dive into Exploratory Data Analysis (EDA) with our collection of pre-made charts, created using the powerful Matplotlib and Seaborn visualization libraries 🎨📊. Whether you're preparing to apply machine learning techniques or simply looking to uncover statistical insights, these ready-to-use visualizations are designed to provide a deeper statistical understanding of your data 🔍📈. Easily identify patterns, trends, and key insights with these intuitive and informative graphics, and enhance your analytical capabilities effortlessly.
                    \n The logo obtained from https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg
                 </p>
-            
+
             """,
             unsafe_allow_html=True
         )
-        if st.button("Go to EDA Page"):
-            navigate_to("EDA")
-
+        st.button("Go to EDA Page", on_click=navigate_to, args=("EDA",))
 
 elif current_page == "Data":
     data_main()
