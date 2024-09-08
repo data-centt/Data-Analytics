@@ -3,43 +3,94 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 
-st.markdown(
-    """
-    <style>
-    .main-title {
-        font-size: 32px;
-        color: #4B0082;
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-    .sub-title {
-        font-size: 24px;
-        color: #4B0082;
-        margin-top: 30px;
-        font-weight: bold;
-        text-align: center;
-    }
-    .desc {
-        font-size: 18px;
-        color: #696969;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    .plot-container {
-        padding: 20px;
-        margin-top: 20px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    </style>
-    """, unsafe_allow_html=True
-)
+
+def navigate_to(page_name):
+    st.session_state["current_page"] = page_name
+
+
+def apply_custom_css():
+    st.markdown(
+        """
+        <style>
+        body {
+                background-color: inherit;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                text-align: center;
+            }
+        .main-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-title {
+            font-size: 36px;
+            color: #4B0082;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px #aaa;
+        }
+
+        .sub-title {
+            font-size: 26px;
+            color: #4B0082;
+            margin-top: 30px;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        
+        .desc {
+            font-size: 18px;
+            color: #696969;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+        }
+
+        .plot-container {
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .plot-container:hover {
+            transform: scale(1.02);
+        }
+
+        .stCheckbox, .stSelectbox {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 28px;
+            }
+            .sub-title {
+                font-size: 22px;
+            }
+            .plot-container {
+                padding: 15px;
+                margin-top: 15px;
+            }
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
 
 
 def main():
+    apply_custom_css()
 
     st.markdown('<h1 class="main-title">Exploratory Data Analysis</h1>', unsafe_allow_html=True)
     st.markdown('<p class="desc">Explore your data and make quick analyses before diving into machine learning!</p>', unsafe_allow_html=True)
@@ -48,7 +99,6 @@ def main():
         df = st.session_state['df']
 
         if df is not None:
-
             if st.checkbox("PairPlots", key="pairplot"):
                 st.markdown(f'<h2 class="sub-title">PairPlots</h2>', unsafe_allow_html=True)
                 with st.container():
@@ -73,6 +123,8 @@ def main():
                         ),
                         ax=ax
                     )
+                    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+                    plt.tight_layout()
                     st.pyplot(fig)
                     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -111,6 +163,8 @@ def main():
                     st.markdown('<div class="plot-container">', unsafe_allow_html=True)
                     fig, ax = plt.subplots(figsize=(10, 5))
                     sns.countplot(data=df, x=st.selectbox("axis", df.columns, key="axis"), ax=ax)
+                    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+                    plt.tight_layout()
                     st.pyplot(fig)
                     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -125,6 +179,8 @@ def main():
                         y=st.selectbox("y-axis", [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])], key="violin_y-axis"),
                         ax=ax
                     )
+                    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+                    plt.tight_layout()
                     st.pyplot(fig)
                     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -140,6 +196,8 @@ def main():
                         ax=ax,
                         ci=None
                     )
+                    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+                    plt.tight_layout()
                     st.pyplot(fig)
                     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -155,11 +213,14 @@ def main():
                         ax=ax,
                         ci=None
                     )
+                    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+                    plt.tight_layout()
                     st.pyplot(fig)
                     st.markdown('</div>', unsafe_allow_html=True)
 
     else:
-        st.write("**Please upload a dataset on the main page**")
+        st.warning("No dataset available! Please click on the button below to upload a dataset.")
+        st.button("Go to Data Page", on_click=navigate_to, args=("Data",))
 
 
 if __name__ == "__main__":
