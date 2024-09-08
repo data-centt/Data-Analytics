@@ -3,6 +3,10 @@ from visualisation import Visualization
 import pandas as pd
 
 
+def navigate_to(page_name):
+    st.session_state["current_page"] = page_name
+
+
 def apply_advanced_css():
     st.markdown("""
         <style>
@@ -94,7 +98,7 @@ def apply_advanced_css():
                 background-color: #28a745; 
                 display: block;
                 margin: auto;
-                color: #FFFFFF; 
+                color: #FFFFFF; /* White text */
                 padding: 10px 15px;
                 border: none;
                 border-radius: 5px;
@@ -132,12 +136,7 @@ def apply_advanced_css():
     """, unsafe_allow_html=True)
 
 
-def render_dashboard_section(section_num):
-
-    st.markdown(f"""
-        <div class="sub-title">Visualisation {section_num}</div>
-    """, unsafe_allow_html=True)
-
+def initialize_session_state(section_num):
     section_key = f'section_{section_num}'
     if section_key not in st.session_state:
         st.session_state[section_key] = {
@@ -150,72 +149,92 @@ def render_dashboard_section(section_num):
             }
         }
 
+
+def confirm_selections(section_num):
+    section_key = f'section_{section_num}'
+    st.session_state[section_key]['inputs_confirmed'] = True
+
+
+def reset_visualization(section_num):
+    section_key = f'section_{section_num}'
+    st.session_state[section_key]['inputs_confirmed'] = False
+
+
+def render_dashboard_section(section_num):
+    initialize_session_state(section_num)
+    section_key = f'section_{section_num}'
     section_state = st.session_state[section_key]
     vis = Visualization()
 
-    with st.container():
-        if not section_state['inputs_confirmed']:
-            chart_type = st.selectbox(f"Select chart for Visualization {section_num}:",
-                                      ["scatter plot", "line chart", "bar chart", "histogram",
-                                       "area chart", "pie chart", "treemap"])
+    st.markdown(f"<div class='sub-title'>Visualization {section_num}</div>", unsafe_allow_html=True)
 
-            x_label = "X-axis"
-            y_label = "Y-axis"
-            if chart_type in ["pie chart"]:
-                x_label = "Values"
-                y_label = "Labels"
+    if not section_state['inputs_confirmed']:
+        chart_type = st.selectbox(
+            f"Select chart for Visualization {section_num}:",
+            ["scatter plot", "line chart", "bar chart", "histogram", "area chart", "pie chart", "treemap"],
+            key=f'chart_type_{section_num}'
+        )
 
-            x_column = st.selectbox(f"Choose {x_label} for Visualization {section_num}:", df.columns)
+        x_label = "X-axis"
+        y_label = "Y-axis"
 
-            y_column = None
-            if chart_type in ["scatter plot", "line chart", "bar chart", "area chart", "pie chart", "treemap"]:
-                y_column = st.selectbox(f"Choose {y_label} for Visualization {section_num}:", [""] + list(df.columns))
+        if chart_type in ["pie chart", "treemap"]:
+            x_label = "Values"
+            y_label = "Labels"
 
-            additional_selected_col = []
-            if chart_type in ["area chart", "line chart"]:
-                if st.checkbox(f"Add Additional values for Y-axis in Visualization {section_num}"):
-                    num_col = [col for col in df.columns if col not in [x_column, y_column]
-                               and pd.api.types.is_numeric_dtype(df[col])]
-                    additional_selected_col = st.multiselect(f"Select other columns for Visualization {section_num}:",
-                                                             options=num_col)
-
-            section_state['chart_config'] = {
-                'chart_type': chart_type,
-                'x_column': x_column,
-                'y_column': y_column if y_column else None,
-                'additional_selected_col': additional_selected_col
-            }
-
-            if st.button(f"Confirm Selections for Visualisation {section_num}"):
-                section_state['inputs_confirmed'] = True
+        if chart_type == "scatter plot":
+            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+            y_columns = x_columns
+        elif chart_type in ["treemap", "bar chart", "line chart", "area chart"]:
+            x_columns = [col for col in df.columns if not pd.api.types.is_numeric_dtype(df[col])]
+            y_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+        elif chart_type == "histogram":
+            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+            y_columns = []
+        elif chart_type in ["treemap", "pie chart"]:
+            y_columns = [col for col in df.columns if not pd.api.types.is_numeric_dtype(df[col])]
+            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
         else:
-            config = section_state['chart_config']
-            x_col = config['x_column']
-            y_col = config['y_column']
-            add_cols = config['additional_selected_col']
+            x_columns = df.columns
+            y_columns = df.columns
 
-            if config['chart_type'] == "histogram":
-                vis.histogram(df, x_col)
-            elif config['chart_type'] == "treemap":
-                vis.treemap(df, x_col, y_col if y_col else x_col)
-            elif config['chart_type'] == "pie chart":
-                vis.pie_chart(df, values=x_col, names=y_col if y_col else x_col)
-            else:
-                vis.visualize(df, config['chart_type'], x_col, y_col, add_col=add_cols)
+        x_column = st.selectbox(f"Choose {x_label} for Visualization {section_num}:", x_columns, key=f'x_column_{section_num}')
+        y_column = st.selectbox(f"Choose {y_label} for Visualization {section_num}:", [""] + list(y_columns), key=f'y_column_{section_num}') if chart_type not in ["histogram"] else None
 
-            reset_input = st.checkbox(f"Reset", key=f'reset_{section_num}', value=False,
-                                      help="Check to reset visualization inputs.")
-            if reset_input:
-                section_state['inputs_confirmed'] = False
+        additional_selected_col = []
+        if chart_type in ["area chart", "line chart"] and st.checkbox(f"Add Additional values for Y-axis in Visualization {section_num}", key=f'add_values_{section_num}'):
+            num_col = [col for col in df.columns if col not in [x_column, y_column] and pd.api.types.is_numeric_dtype(df[col])]
+            additional_selected_col = st.multiselect(f"Select other columns for Visualization {section_num}:", options=num_col, key=f'additional_cols_{section_num}')
+
+        section_state['chart_config'] = {
+            'chart_type': chart_type,
+            'x_column': x_column,
+            'y_column': y_column if y_column else None,
+            'additional_selected_col': additional_selected_col
+        }
+
+        st.button(f"Confirm Selections for Visualization {section_num}", on_click=confirm_selections, args=(section_num,), key=f'confirm_{section_num}')
+    else:
+        config = section_state['chart_config']
+        x_col = config['x_column']
+        y_col = config['y_column']
+        add_cols = config['additional_selected_col']
+
+        if config['chart_type'] == "histogram":
+            vis.histogram(df, x_col)
+        elif config['chart_type'] == "treemap":
+            vis.treemap(df, x_col, y_col if y_col else x_col)
+        elif config['chart_type'] == "pie chart":
+            vis.pie_chart(df, values=x_col, names=y_col if y_col else x_col)
+        else:
+            vis.visualize(df, config['chart_type'], x_col, y_col, add_col=add_cols)
+
+        st.checkbox(f"Reset", on_change=reset_visualization, args=(section_num,), key=f'reset_{section_num}')
 
 
 def main():
     apply_advanced_css()
-
-    st.markdown(
-        '<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>',
-        unsafe_allow_html=True)
-
+    st.markdown('<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>', unsafe_allow_html=True)
     st.markdown('<div class="home-title">Dashboard</div>', unsafe_allow_html=True)
     st.markdown("""
         <p class="home-description">
@@ -233,7 +252,7 @@ The available visuals are standard storytelling options on MS PowerBI, including
 \n 3) _If you want to start over, check the "Reset" box to clear your selection._
 \n 4) _Use the navigation page to return to the home screen._
 
-Stay tuned—more visuals are coming soon! 🚀
+Stay tuned—more visuals are coming soon! 🚀 📊
         </p>
     """, unsafe_allow_html=True)
 
@@ -245,8 +264,10 @@ Stay tuned—more visuals are coming soon! 🚀
             render_dashboard_section(i)
 
     else:
-        st.warning("No dataset available! Please upload data on the 'Data' page.")
+        st.warning("No dataset available! Please click on the button below to upload a dataset.")
+        st.button("Go to Data Page", on_click=navigate_to, args=("Data",))
 
 
 if __name__ == "__main__":
     main()
+
