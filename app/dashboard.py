@@ -252,7 +252,7 @@ The available visuals are standard storytelling options on MS PowerBI, including
 \n 3) _If you want to start over, check the "Reset" box to clear your selection._
 \n 4) _Use the navigation page to return to the home screen._
 
-Stay tuned—more visuals are coming soon! 🚀 📊
+Stay tuned—more visuals coming soon! 🚀 📊
         </p>
     """, unsafe_allow_html=True)
 
@@ -265,7 +265,7 @@ Stay tuned—more visuals are coming soon! 🚀 📊
 
     else:
         st.warning("No dataset available! Please click on the button below to upload a dataset.")
-        st.button("Go to Data Page", on_click=navigate_to, args=("Data",))
+    st.button("Go to Data Page", on_click=navigate_to, args=("Data",))
 
 
 if __name__ == "__main__":

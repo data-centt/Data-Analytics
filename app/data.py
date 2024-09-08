@@ -155,6 +155,7 @@ def main():
 
     else:
         st.info("Please upload a file to start")
+    st.button("Home Page", on_click=navigate_to, args=("Home",))
 
 
 if __name__ == "__main__":

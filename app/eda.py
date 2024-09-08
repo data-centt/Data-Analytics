@@ -26,14 +26,15 @@ def apply_custom_css():
             margin: 0 auto;
         }
 
-        .main-title {
-            font-size: 36px;
-            color: #4B0082;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 2px #aaa;
-        }
+         .home-title {
+                font-size: 40px;
+                color: #2E86C1; 
+                font-weight: bold;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
 
         .sub-title {
             font-size: 26px;
@@ -52,7 +53,18 @@ def apply_custom_css():
             line-height: 1.5;
             letter-spacing: 0.5px;
         }
+        .logo-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 20px;
+            }
 
+            .logo-container img {
+                width: 150px; 
+                max-width: 100%;
+                height: auto;
+            }
         .plot-container {
             padding: 20px;
             margin-top: 20px;
@@ -91,8 +103,10 @@ def apply_custom_css():
 
 def main():
     apply_custom_css()
-
-    st.markdown('<h1 class="main-title">Exploratory Data Analysis</h1>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>',
+        unsafe_allow_html=True)
+    st.markdown('<h1 class="home-title">Exploratory Data Analysis</h1>', unsafe_allow_html=True)
     st.markdown('<p class="desc">Explore your data and make quick analyses before diving into machine learning!</p>', unsafe_allow_html=True)
 
     if 'df' in st.session_state and st.session_state['df'] is not None:
@@ -220,7 +234,7 @@ def main():
 
     else:
         st.warning("No dataset available! Please click on the button below to upload a dataset.")
-        st.button("Go to Data Page", on_click=navigate_to, args=("Data",))
+    st.button("Go to Data Page", on_click=navigate_to, args=("Data",))
 
 
 if __name__ == "__main__":
