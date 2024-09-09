@@ -1,5 +1,7 @@
+import pandas as pd
 import streamlit as st
 import io
+import requests
 from error_handler import load_file
 
 
@@ -39,7 +41,7 @@ def apply_css():
             }
 
             .logo-container img {
-                width: 150px; 
+                width: 200px; 
                 max-width: 100%;
                 height: auto;
             }
@@ -84,9 +86,10 @@ def navigate_to(page_name):
 
 
 def main():
+    global response
     apply_css()
     st.markdown(
-        '<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>',
+        '<div class="logo-container"><img src="https://raw.githubusercontent.com/data-centt/Data-Analytics/main/media/data-cent1.png" alt="Logo"></div>',
         unsafe_allow_html=True)
 
     st.markdown('<p class="main-title">Data Overview</p>', unsafe_allow_html=True)
@@ -100,19 +103,60 @@ def main():
         """, unsafe_allow_html=True)
     st.button("Go to EDA Page", on_click=navigate_to, args=("EDA",))
     st.button("Go to Dashboard", on_click=navigate_to, args=("Dashboard",), key='dashboard')
+    option = st.radio("Select Data:", ("I have my data", "Test with sample data"))
+    path1 = "https://raw.githubusercontent.com/data-centt/Data-Analytics/main/sample%20data/fire.json"
+    path2 = "https://raw.githubusercontent.com/data-centt/Data-Analytics/main/sample%20data/test.xlsx"
 
     if 'df' not in st.session_state:
         st.session_state['df'] = None
 
-    if 'file_uploaded' not in st.session_state:
-        st.session_state['file_uploaded'] = False
+    if "data_source" not in st.session_state:
+        st.session_state["data_source"] = "Upload your own data"
 
-    if not st.session_state['file_uploaded']:
-        path = st.file_uploader("Upload file", type=["csv", "json", "xlsx", "xls"])
-        if path:
-            with st.spinner('Loading data...'):
-                st.session_state['df'] = load_file(path)
-                st.session_state['file_uploaded'] = True
+    if st.session_state["data_source"] != option:
+        st.session_state["data_source"] = option
+        st.session_state["df"] = None
+
+    if option == "I have my data":
+        if 'file_uploaded' not in st.session_state:
+            st.session_state['file_uploaded'] = False
+
+        if not st.session_state['file_uploaded']:
+            path = st.file_uploader("Upload file", type=["csv", "json", "xlsx", "xls"])
+            if path:
+                with st.spinner('Loading data...'):
+                    st.session_state['df'] = load_file(path)
+                    st.session_state['file_uploaded'] = True
+
+    elif option == "Test with sample data":
+        if "data_option" not in st.session_state:
+            st.session_state["data_option"] = "Fire data"
+
+        options = ["Fire data", "Employee data"]
+        current_option = st.session_state.get("data_option", "Fire data")
+
+        if current_option not in options:
+            current_option = "Fire data"
+
+        data_option = st.selectbox("Choose data: ", options,
+                                   index=options.index(current_option))
+
+        if st.session_state["data_option"] != data_option:
+            st.session_state["data_option"] = data_option
+            st.session_state["df"] = None
+
+        if st.session_state['df'] is None:
+            if data_option == "Fire data":
+                response = requests.get(path1)
+                if response.status_code == 200:
+                    st.session_state['df'] = pd.read_json(io.StringIO(response.text))
+            elif data_option == "Employee data":
+                response = requests.get(path2)
+                if response.status_code == 200:
+                    st.session_state['df'] = pd.read_excel(io.BytesIO(response.content))
+
+            else:
+                st.error("Seems like there are no sample data, please upload yours or reach out to me on linkedIn.")
 
     if st.session_state['df'] is not None:
         df = st.session_state['df']
@@ -147,7 +191,7 @@ def main():
                     unsafe_allow_html=True)
                 st.write(df.describe())
 
-            reset = st.button("Reset Data")
+            reset = st.button("Reset Uploaded Data")
 
             if reset:
                 st.session_state['file_uploaded'] = False
