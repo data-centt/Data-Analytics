@@ -20,20 +20,16 @@ st.markdown(
         margin-bottom: 10px; 
     }
     .stSelectbox div[data-baseweb="select"] > div {
-        width: 200px !important;  
-        border-radius: 8px; 
+        width: 120px !important;  
+        border-radius: 20px; 
         border: 1px solid #2E86C1; 
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);  
+        box-shadow: 0px 0px 5px rgba(1, 0, 0, 0.1);  
     }
     .stSelectbox div[data-baseweb="select"] ul {
         border-radius: 8px;  
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
     }
 
-    .stSelectbox div[data-baseweb="select"] input {
-        font-size: 14px;  
-        padding: 8px; 
-    }
     </style>
     """,
     unsafe_allow_html=True
@@ -49,8 +45,6 @@ selected_page = st.selectbox(
     on_change=lambda: navigate_to(st.session_state["nav_menu"])
 )
 current_page = st.session_state['current_page']
-
-
 
 if current_page == "Home":
     st.markdown(
@@ -157,7 +151,8 @@ if current_page == "Home":
             <div class="home-title">Data-Cent Data Analytics! </div>
             <p class="home-description">
 
-This project was made to deliver powerful data analysis and visualization tools, offering a comprehensive platform for in-depth data exploration 📊. With this project, you can delve into a diverse range of datasets, perform detailed Exploratory Data Analysis (EDA) 🔍, and interact with dynamic dashboards designed to uncover valuable insights 📈. Whether you're a data enthusiast, a seasoned professional, or simply curious about data trends, this project is tailored to make data exploration both accessible and engaging for everyone 🌟.
+**Short on time? Quickly go to the data page to test the functionalities.**
+\n This project was made to deliver powerful data analysis and visualization tools, offering a comprehensive platform for in-depth data exploration 📊. With this project, you can delve into a diverse range of datasets, perform detailed Exploratory Data Analysis (EDA) 🔍, and interact with dynamic dashboards designed to uncover valuable insights 📈. Whether you're a data enthusiast, a seasoned professional, or simply curious about data trends, this project is tailored to make data exploration both accessible and engaging for everyone 🌟.
 
 For any issues you encounter while performing analysis or navigating through the webpage, please refer to the GitHub repository linked below to create an issue 🛠️. Alternatively, feel free to reach out to me directly via LinkedIn for personalized assistance 💬. Your feedback is crucial for improving the project and ensuring a smooth user experience 🚀.
 \n For maximum viewing and navigating experience, please turn on light-mode. It can be found in settings > theme
