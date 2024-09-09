@@ -11,13 +11,43 @@ def navigate_to(page_name):
 if "current_page" not in st.session_state:
     st.session_state["current_page"] = "Home"
 
-st.sidebar.title("Navigation")
-st.sidebar.button("Home", on_click=navigate_to, args=("Home",))
-st.sidebar.button("Data", on_click=navigate_to, args=("Data",))
-st.sidebar.button("Dashboard", on_click=navigate_to, args=("Dashboard",))
-st.sidebar.button("EDA", on_click=navigate_to, args=("EDA",))
+
+st.markdown(
+    """
+    <style>
+    .stSelectbox [data-baseweb="select"] {
+        margin-top: 0px; 
+        margin-bottom: 10px; 
+    }
+    .stSelectbox div[data-baseweb="select"] > div {
+        width: 200px !important;  
+        border-radius: 8px; 
+        border: 1px solid #2E86C1; 
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);  
+    }
+    .stSelectbox div[data-baseweb="select"] ul {
+        border-radius: 8px;  
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+    }
+
+    .stSelectbox div[data-baseweb="select"] input {
+        font-size: 14px;  
+        padding: 8px; 
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 
+menu_options = ["Home", "Data", "Dashboard", "EDA"]
+selected_page = st.selectbox(
+    "Page",
+    menu_options,
+    index=menu_options.index(st.session_state["current_page"]),
+    key="nav_menu",
+    on_change=lambda: navigate_to(st.session_state["nav_menu"])
+)
 current_page = st.session_state['current_page']
 
 
@@ -25,107 +55,188 @@ if current_page == "Home":
     st.markdown(
         """
         <style>
-        body {
-            background-color: inherit;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .home-title {
-            font-size: 40px;
-            color: #2E86C1; 
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .home-description {
-            font-size: 18px;
-            color: #333333; 
-            margin-top: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .link-button {
-            display: inline-block;
-            font-size: 16px;
-            color: #29649e; 
-            font-weight: bold;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin: 10px 5px;
-            background-color: #007BFF; 
-            transition: background-color 0.3s ease;
-            text-align: center;
-        }
-
-        .link-button:hover {
-            background-color: #0056b3; 
-        }
-
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .logo-container img {
-            width: 200px;
-            max-width: 100%;
-            height: auto;
-        }
-
-        .sub-title {
-            font-size: 24px;
-            color: #2E86C1; 
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .sub-description {
-            font-size: 16px;
-
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .sub-button {
-            background-color: #28a745; 
-            display: block;
-            margin: auto;
-            color: #FFFFFF; 
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
+        .menu-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            text-align: center;
         }
 
-        .sub-button:hover {
-            background-color: #218838; 
+        .menu-button {
+            display: inline-block;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
+        .menu-button div {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px 0;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 10px;
+            z-index: 1;
+        }
+
+        .menu-container:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content button {
+            background-color: #ffffff;
+            color: #333;
+            padding: 10px;
+            border: none;
+            text-align: left;
+            width: 100%;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .dropdown-content button:hover {
+            background-color: #ddd;
+        }
         </style>
         """,
         unsafe_allow_html=True
     )
 
-    st.markdown(
-        '<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>',
-        unsafe_allow_html=True)
-
+    # HTML for the hamburger menu
     st.markdown(
         """
-            <div class="home-title">Data Analytics!</div>
+        <div class="menu-container">
+            <div class="menu-button">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="dropdown-content">
+                <button onclick="window.location.href='#home'; Streamlit.setSessionState({current_page: 'Home'})">Home</button>
+                <button onclick="window.location.href='#data'; Streamlit.setSessionState({current_page: 'Data'})">Data</button>
+                <button onclick="window.location.href='#dashboard'; Streamlit.setSessionState({current_page: 'Dashboard'})">Dashboard</button>
+                <button onclick="window.location.href='#eda'; Streamlit.setSessionState({current_page: 'EDA'})">EDA</button>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Display the current page content
+    current_page = st.session_state['current_page']
+
+    if current_page == "Home":
+        st.markdown(
+            """
+            <style>
+            body {
+                background-color: inherit;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                text-align: left;
+            }
+
+            .home-title {
+                font-size: 40px;
+                color: #2E86C1; 
+                font-weight: bold;
+                margin-bottom: 20px;
+                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
+
+            .home-description {
+                font-size: 18px;
+                color: #333333; 
+                margin-top: 10px;
+                margin-bottom: 20px;
+                text-align: left;
+            }
+
+            .link-button {
+                display: inline-block;
+                font-size: 16px;
+                color: #29649e; 
+                font-weight: bold;
+                text-decoration: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                margin: 10px 5px;
+                background-color: #007BFF; 
+                transition: background-color 0.3s ease;
+                text-align: center;
+            }
+
+            .link-button:hover {
+                background-color: #0056b3; 
+            }
+
+            .logo-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .logo-container img {
+                width: 200px;
+                max-width: 100%;
+                height: auto;
+            }
+
+            .sub-title {
+                font-size: 24px;
+                color: #2E86C1; 
+                font-weight: bold;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+
+            .sub-description {
+                font-size: 16px;
+                margin-bottom: 15px;
+                text-align: left;
+            }
+
+            .sub-button {
+                background-color: #28a745; 
+                display: block;
+                margin: auto;
+                color: #FFFFFF; 
+                padding: 10px 15px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                text-align: center;
+            }
+
+            .sub-button:hover {
+                background-color: #218838; 
+            }
+
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+
+    st.markdown(
+        '<div class="logo-container"><img src="https://raw.githubusercontent.com/data-centt/Data-Analytics/main/media/data-cent1.png" alt="Logo"></div>',
+        unsafe_allow_html=True)
+    st.markdown(
+        """
+            <div class="home-title">Data-Cent Data Analytics! </div>
             <p class="home-description">
 
 This project was made to deliver powerful data analysis and visualization tools, offering a comprehensive platform for in-depth data exploration 📊. With this project, you can delve into a diverse range of datasets, perform detailed Exploratory Data Analysis (EDA) 🔍, and interact with dynamic dashboards designed to uncover valuable insights 📈. Whether you're a data enthusiast, a seasoned professional, or simply curious about data trends, this project is tailored to make data exploration both accessible and engaging for everyone 🌟.
@@ -134,7 +245,7 @@ For any issues you encounter while performing analysis or navigating through the
 \n For maximum viewing and navigating experience, please turn on light-mode. It can be found in settings > theme
             </p>
             <div>
-                <a class="link-button github-link" href="https://github.com/Daniel15568/Data-Analytics-Dashboard" target="_blank">
+                <a class="link-button github-link" href="https://github.com/data-centt/Data-Analytics" target="_blank">
                     👉 GitHub Repository
                 </a>
                 <a class="link-button linkedin-link" href="https://www.linkedin.com/in/daniel15568" target="_blank">
@@ -159,7 +270,6 @@ Quickly access essential statistical insights and uncover full information about
             unsafe_allow_html=True
         )
         st.button("Go to Data Page", on_click=navigate_to, args=("Data",))
-
         with st.container():
             st.markdown(
                 """
@@ -183,7 +293,6 @@ Quickly access essential statistical insights and uncover full information about
                 <div class="sub-title">\n Exploratory Data Analysis ( EDA )</div>
                 <p class="sub-description">
                    \n \n \n Dive into Exploratory Data Analysis (EDA) with our collection of pre-made charts, created using the powerful Matplotlib and Seaborn visualization libraries 🎨📊. Whether you're preparing to apply machine learning techniques or simply looking to uncover statistical insights, these ready-to-use visualizations are designed to provide a deeper statistical understanding of your data 🔍📈. Easily identify patterns, trends, and key insights with these intuitive and informative graphics, and enhance your analytical capabilities effortlessly.
-                   \n The logo obtained from https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg
                 </p>
 
             """,
