@@ -51,91 +51,9 @@ selected_page = st.selectbox(
 current_page = st.session_state['current_page']
 
 
+
 if current_page == "Home":
     st.markdown(
-        """
-        <style>
-        .menu-container {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-            cursor: pointer;
-        }
-
-        .menu-button {
-            display: inline-block;
-            padding: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .menu-button div {
-            width: 25px;
-            height: 3px;
-            background-color: #333;
-            margin: 5px 0;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            padding: 10px;
-            z-index: 1;
-        }
-
-        .menu-container:hover .dropdown-content {
-            display: block;
-        }
-
-        .dropdown-content button {
-            background-color: #ffffff;
-            color: #333;
-            padding: 10px;
-            border: none;
-            text-align: left;
-            width: 100%;
-            box-sizing: border-box;
-            cursor: pointer;
-        }
-
-        .dropdown-content button:hover {
-            background-color: #ddd;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # HTML for the hamburger menu
-    st.markdown(
-        """
-        <div class="menu-container">
-            <div class="menu-button">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <div class="dropdown-content">
-                <button onclick="window.location.href='#home'; Streamlit.setSessionState({current_page: 'Home'})">Home</button>
-                <button onclick="window.location.href='#data'; Streamlit.setSessionState({current_page: 'Data'})">Data</button>
-                <button onclick="window.location.href='#dashboard'; Streamlit.setSessionState({current_page: 'Dashboard'})">Dashboard</button>
-                <button onclick="window.location.href='#eda'; Streamlit.setSessionState({current_page: 'EDA'})">EDA</button>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # Display the current page content
-    current_page = st.session_state['current_page']
-
-    if current_page == "Home":
-        st.markdown(
             """
             <style>
             body {
@@ -229,7 +147,7 @@ if current_page == "Home":
             </style>
             """,
             unsafe_allow_html=True
-        )
+    )
 
     st.markdown(
         '<div class="logo-container"><img src="https://raw.githubusercontent.com/data-centt/Data-Analytics/main/media/data-cent1.png" alt="Logo"></div>',
