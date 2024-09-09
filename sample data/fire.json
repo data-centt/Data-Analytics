@@ -1,0 +1,442 @@
+[
+    {
+        "Region of England": "South West",
+        "Region Code": "E12000009",
+        "Fire and Rescue Authority": "Avon",
+        "Fire and Rescue Authority code": "E31000001",
+        "Area (square kilometres)": 1513.790655,
+        "Wildfire incidents (number)": 5498,
+        "Area burnt (hectares)": 54.11705000000086,
+        "Duration of wildfire incidents (hours)": 4200.116388888886
+    },
+    {
+        "Region of England": "East of England",
+        "Region Code": "E12000006",
+        "Fire and Rescue Authority": "Bedfordshire",
+        "Fire and Rescue Authority code": "E31000002",
+        "Area (square kilometres)": 1235.426095,
+        "Wildfire incidents (number)": 4869,
+        "Area burnt (hectares)": 464.2276000000029,
+        "Duration of wildfire incidents (hours)": 9332.595000000003
+    },
+    {
+        "Region of England": "South East",
+        "Region Code": "E12000008",
+        "Fire and Rescue Authority": "Buckinghamshire & Milton Keynes",
+        "Fire and Rescue Authority code": "E31000004 ",
+        "Area (square kilometres)": 1873.575941,
+        "Wildfire incidents (number)": 4701,
+        "Area burnt (hectares)": 250.90339999999327,
+        "Duration of wildfire incidents (hours)": 51592.58666666655
+    },
+    {
+        "Region of England": "East of England",
+        "Region Code": "E12000006",
+        "Fire and Rescue Authority": "Cambridgeshire",
+        "Fire and Rescue Authority code": "E31000005 ",
+        "Area (square kilometres)": 3397.445445,
+        "Wildfire incidents (number)": 4582,
+        "Area burnt (hectares)": 392.23329999999766,
+        "Duration of wildfire incidents (hours)": 20643.211111111123
+    },
+    {
+        "Region of England": "East of England",
+        "Region Code": "E12000002",
+        "Fire and Rescue Authority": "Cheshire",
+        "Fire and Rescue Authority code": "E31000006 ",
+        "Area (square kilometres)": 2380.269816,
+        "Wildfire incidents (number)": 5929,
+        "Area burnt (hectares)": 91.01420000000145,
+        "Duration of wildfire incidents (hours)": 5538.554999999997
+    },
+    {
+        "Region of England": "North West",
+        "Region Code": "E12000001",
+        "Fire and Rescue Authority": "Cleveland",
+        "Fire and Rescue Authority code": "E31000007 ",
+        "Area (square kilometres)": 616.4208283,
+        "Wildfire incidents (number)": 8857,
+        "Area burnt (hectares)": 114.98874999999819,
+        "Duration of wildfire incidents (hours)": 15760.557222222244
+    },
+    {
+        "Region of England": "North East",
+        "Region Code": "E12000009",
+        "Fire and Rescue Authority": "Cornwall",
+        "Fire and Rescue Authority code": "E31000008 ",
+        "Area (square kilometres)": 3611.92655,
+        "Wildfire incidents (number)": 3094,
+        "Area burnt (hectares)": 1445.083750000037,
+        "Duration of wildfire incidents (hours)": 3776.36361111112
+    },
+    {
+        "Region of England": "South West",
+        "Region Code": "E12000001",
+        "Fire and Rescue Authority": "County Durham and Darlington",
+        "Fire and Rescue Authority code": "E31000013 ",
+        "Area (square kilometres)": 2430.086905,
+        "Wildfire incidents (number)": 9753,
+        "Area burnt (hectares)": 149.45804999998157,
+        "Duration of wildfire incidents (hours)": 8099.29972222221
+    },
+    {
+        "Region of England": "North East",
+        "Region Code": "E12000002",
+        "Fire and Rescue Authority": "Cumbria",
+        "Fire and Rescue Authority code": "E31000009 ",
+        "Area (square kilometres)": 7183.708511,
+        "Wildfire incidents (number)": 3597,
+        "Area burnt (hectares)": 3392.5131000000124,
+        "Duration of wildfire incidents (hours)": 4193.582500000001
+    },
+    {
+        "Region of England": "North West",
+        "Region Code": "E12000004",
+        "Fire and Rescue Authority": "Derbyshire",
+        "Fire and Rescue Authority code": "E31000010 ",
+        "Area (square kilometres)": 2628.791537,
+        "Wildfire incidents (number)": 6343,
+        "Area burnt (hectares)": 555.9066000000005,
+        "Duration of wildfire incidents (hours)": 8363.429444444442
+    },
+    {
+        "Region of England": "East Midlands",
+        "Region Code": "E12000009",
+        "Fire and Rescue Authority": "Devon & Somerset",
+        "Fire and Rescue Authority code": "E31000011 ",
+        "Area (square kilometres)": 10352.05214,
+        "Wildfire incidents (number)": 7203,
+        "Area burnt (hectares)": 6668.390449999978,
+        "Duration of wildfire incidents (hours)": 11786.308333333329
+    },
+    {
+        "Region of England": "South West",
+        "Region Code": "E12000009",
+        "Fire and Rescue Authority": "Dorset & Wiltshire",
+        "Fire and Rescue Authority code": "E31000047 ",
+        "Area (square kilometres)": 6180.437958,
+        "Wildfire incidents (number)": 5088,
+        "Area burnt (hectares)": 1409.5919500000387,
+        "Duration of wildfire incidents (hours)": 13028.461388888867
+    },
+    {
+        "Region of England": "South West",
+        "Region Code": "E12000008",
+        "Fire and Rescue Authority": "East Sussex",
+        "Fire and Rescue Authority code": "E31000014 ",
+        "Area (square kilometres)": 1809.200364,
+        "Wildfire incidents (number)": 3318,
+        "Area burnt (hectares)": 167.23419999999774,
+        "Duration of wildfire incidents (hours)": 5977.97777777778
+    },
+    {
+        "Region of England": "South East",
+        "Region Code": "E12000006",
+        "Fire and Rescue Authority": "Essex",
+        "Fire and Rescue Authority code": "E31000015 ",
+        "Area (square kilometres)": 3948.906452,
+        "Wildfire incidents (number)": 12191,
+        "Area burnt (hectares)": 2029.8341000000364,
+        "Duration of wildfire incidents (hours)": 16475.103333333336
+    },
+    {
+        "Region of England": "East of England",
+        "Region Code": "E12000009",
+        "Fire and Rescue Authority": "Gloucestershire",
+        "Fire and Rescue Authority code": "E31000016 ",
+        "Area (square kilometres)": 2704.224451,
+        "Wildfire incidents (number)": 2530,
+        "Area burnt (hectares)": 34.01395000000025,
+        "Duration of wildfire incidents (hours)": 2393.0663888888894
+    },
+    {
+        "Region of England": "South West",
+        "Region Code": "E12000002",
+        "Fire and Rescue Authority": "Greater Manchester",
+        "Fire and Rescue Authority code": "E31000040 ",
+        "Area (square kilometres)": 1275.981138,
+        "Wildfire incidents (number)": 20531,
+        "Area burnt (hectares)": 30455.517999999138,
+        "Duration of wildfire incidents (hours)": 28960.050555555583
+    },
+    {
+        "Region of England": "North West",
+        "Region Code": "E12000008",
+        "Fire and Rescue Authority": "Hampshire and Isle of Wight",
+        "Fire and Rescue Authority code": "E31000048 ",
+        "Area (square kilometres)": 4246.603408,
+        "Wildfire incidents (number)": 11200,
+        "Area burnt (hectares)": 927.5414999999847,
+        "Duration of wildfire incidents (hours)": 14164.958611111115
+    },
+    {
+        "Region of England": "South East",
+        "Region Code": "E12000005",
+        "Fire and Rescue Authority": "Hereford & Worcester",
+        "Fire and Rescue Authority code": "E31000018 ",
+        "Area (square kilometres)": 3920.223635,
+        "Wildfire incidents (number)": 4351,
+        "Area burnt (hectares)": 210.48185000000097,
+        "Duration of wildfire incidents (hours)": 7496.327777777782
+    },
+    {
+        "Region of England": "West Midlands",
+        "Region Code": "E12000006",
+        "Fire and Rescue Authority": "Hertfordshire",
+        "Fire and Rescue Authority code": "E31000019 ",
+        "Area (square kilometres)": 1643.064815,
+        "Wildfire incidents (number)": 6524,
+        "Area burnt (hectares)": 157.01145000000076,
+        "Duration of wildfire incidents (hours)": 7561.27722222222
+    },
+    {
+        "Region of England": "East of England",
+        "Region Code": "E12000003",
+        "Fire and Rescue Authority": "Humberside",
+        "Fire and Rescue Authority code": "E31000020 ",
+        "Area (square kilometres)": 3654.809788,
+        "Wildfire incidents (number)": 7028,
+        "Area burnt (hectares)": 302.79699999999804,
+        "Duration of wildfire incidents (hours)": 6620.04
+    },
+    {
+        "Region of England": "Yorkshire and The Humber",
+        "Region Code": "E12000009",
+        "Fire and Rescue Authority": "Isles of Scilly",
+        "Fire and Rescue Authority code": "E31000039 ",
+        "Area (square kilometres)": 22.85143025,
+        "Wildfire incidents (number)": 28,
+        "Area burnt (hectares)": 0.1076,
+        "Duration of wildfire incidents (hours)": 112.1677777777778
+    },
+    {
+        "Region of England": "South West",
+        "Region Code": "E12000008",
+        "Fire and Rescue Authority": "Kent",
+        "Fire and Rescue Authority code": "E31000022 ",
+        "Area (square kilometres)": 3906.128509,
+        "Wildfire incidents (number)": 10943,
+        "Area burnt (hectares)": 989.5939999999814,
+        "Duration of wildfire incidents (hours)": 12845.959166666671
+    },
+    {
+        "Region of England": "South East",
+        "Region Code": "E12000002",
+        "Fire and Rescue Authority": "Lancashire",
+        "Fire and Rescue Authority code": "E31000023 ",
+        "Area (square kilometres)": 3261.595893,
+        "Wildfire incidents (number)": 8058,
+        "Area burnt (hectares)": 11330.805599999458,
+        "Duration of wildfire incidents (hours)": 10044.59638888889
+    },
+    {
+        "Region of England": "North West",
+        "Region Code": "E12000004",
+        "Fire and Rescue Authority": "Leicestershire",
+        "Fire and Rescue Authority code": "E31000024 ",
+        "Area (square kilometres)": 2550.880143,
+        "Wildfire incidents (number)": 5434,
+        "Area burnt (hectares)": 143.79800000000063,
+        "Duration of wildfire incidents (hours)": 13793.28111111111
+    },
+    {
+        "Region of England": "East Midlands",
+        "Region Code": "E12000004",
+        "Fire and Rescue Authority": "Lincolnshire",
+        "Fire and Rescue Authority code": "E31000025 ",
+        "Area (square kilometres)": 6102.553235,
+        "Wildfire incidents (number)": 3500,
+        "Area burnt (hectares)": 394.7358499999989,
+        "Duration of wildfire incidents (hours)": 8816.67611111111
+    },
+    {
+        "Region of England": "East Midlands",
+        "Region Code": "E12000007",
+        "Fire and Rescue Authority": "London Fire and Emergency Planning Authority",
+        "Fire and Rescue Authority code": "E31000046 ",
+        "Area (square kilometres)": 1594.697003,
+        "Wildfire incidents (number)": 32592,
+        "Area burnt (hectares)": 664.2057999999886,
+        "Duration of wildfire incidents (hours)": 23974.947777777776
+    },
+    {
+        "Region of England": "London",
+        "Region Code": "E12000002",
+        "Fire and Rescue Authority": "Merseyside",
+        "Fire and Rescue Authority code": "E31000041 ",
+        "Area (square kilometres)": 812.2986737,
+        "Wildfire incidents (number)": 17554,
+        "Area burnt (hectares)": 245.8971999999879,
+        "Duration of wildfire incidents (hours)": 11979.314166666667
+    },
+    {
+        "Region of England": "North West",
+        "Region Code": "E12000006",
+        "Fire and Rescue Authority": "Norfolk",
+        "Fire and Rescue Authority code": "E31000026 ",
+        "Area (square kilometres)": 5507.392258,
+        "Wildfire incidents (number)": 6056,
+        "Area burnt (hectares)": 1635.2527499999915,
+        "Duration of wildfire incidents (hours)": 10028.643611111118
+    },
+    {
+        "Region of England": "East of England",
+        "Region Code": "E12000003",
+        "Fire and Rescue Authority": "North Yorkshire",
+        "Fire and Rescue Authority code": "E31000027 ",
+        "Area (square kilometres)": 8324.2074,
+        "Wildfire incidents (number)": 4070,
+        "Area burnt (hectares)": 623.0078999999946,
+        "Duration of wildfire incidents (hours)": 16855.763055555555
+    },
+    {
+        "Region of England": "Yorkshire and The Humber",
+        "Region Code": "E12000004",
+        "Fire and Rescue Authority": "Northamptonshire",
+        "Fire and Rescue Authority code": "E31000028 ",
+        "Area (square kilometres)": 2366.990161,
+        "Wildfire incidents (number)": 4493,
+        "Area burnt (hectares)": 211.8928999999818,
+        "Duration of wildfire incidents (hours)": 7997.668055555552
+    },
+    {
+        "Region of England": "North East",
+        "Region Code": "E12000001",
+        "Fire and Rescue Authority": "Northumberland",
+        "Fire and Rescue Authority code": "E31000029 ",
+        "Area (square kilometres)": 5078.32148,
+        "Wildfire incidents (number)": 4537,
+        "Area burnt (hectares)": 236.7868499999842,
+        "Duration of wildfire incidents (hours)": 17584.65083333329
+    },
+    {
+        "Region of England": "East Midlands",
+        "Region Code": "E12000004",
+        "Fire and Rescue Authority": "Nottinghamshire and City of Nottingham",
+        "Fire and Rescue Authority code": "E31000030 ",
+        "Area (square kilometres)": 2161.508277,
+        "Wildfire incidents (number)": 10442,
+        "Area burnt (hectares)": 393.45844999999537,
+        "Duration of wildfire incidents (hours)": 12520.713611111103
+    },
+    {
+        "Region of England": "South East",
+        "Region Code": "E12000008",
+        "Fire and Rescue Authority": "Oxfordshire",
+        "Fire and Rescue Authority code": "E31000031 ",
+        "Area (square kilometres)": 2605.947801,
+        "Wildfire incidents (number)": 2785,
+        "Area burnt (hectares)": 208.35339999999846,
+        "Duration of wildfire incidents (hours)": 4772.878055555555
+    },
+    {
+        "Region of England": "South East",
+        "Region Code": "E12000008",
+        "Fire and Rescue Authority": "Royal Berkshire",
+        "Fire and Rescue Authority code": "E31000003 ",
+        "Area (square kilometres)": 1263.886267,
+        "Wildfire incidents (number)": 3899,
+        "Area burnt (hectares)": 343.34024999999957,
+        "Duration of wildfire incidents (hours)": 7622.930277777783
+    },
+    {
+        "Region of England": "West Midlands",
+        "Region Code": "E12000005",
+        "Fire and Rescue Authority": "Shropshire",
+        "Fire and Rescue Authority code": "E31000032 ",
+        "Area (square kilometres)": 3487.588926,
+        "Wildfire incidents (number)": 3306,
+        "Area burnt (hectares)": 113.25189999999402,
+        "Duration of wildfire incidents (hours)": 4642.588333333336
+    },
+    {
+        "Region of England": "Yorkshire and The Humber",
+        "Region Code": "E12000003",
+        "Fire and Rescue Authority": "South Yorkshire",
+        "Fire and Rescue Authority code": "E31000042 ",
+        "Area (square kilometres)": 1552.077408,
+        "Wildfire incidents (number)": 18670,
+        "Area burnt (hectares)": 2241.05595,
+        "Duration of wildfire incidents (hours)": 25270.308611111093
+    },
+    {
+        "Region of England": "West Midlands",
+        "Region Code": "E12000005",
+        "Fire and Rescue Authority": "Stoke-on-Trent and Staffordshire",
+        "Fire and Rescue Authority code": "E31000033 ",
+        "Area (square kilometres)": 2716.764893,
+        "Wildfire incidents (number)": 9806,
+        "Area burnt (hectares)": 446.1667499999933,
+        "Duration of wildfire incidents (hours)": 10785.541944444449
+    },
+    {
+        "Region of England": "East of England",
+        "Region Code": "E12000006",
+        "Fire and Rescue Authority": "Suffolk",
+        "Fire and Rescue Authority code": "E31000034 ",
+        "Area (square kilometres)": 3852.457858,
+        "Wildfire incidents (number)": 5106,
+        "Area burnt (hectares)": 588.9663499999915,
+        "Duration of wildfire incidents (hours)": 11946.026388888888
+    },
+    {
+        "Region of England": "South East",
+        "Region Code": "Surrey",
+        "Fire and Rescue Authority": "Surrey",
+        "Fire and Rescue Authority code": "E31000035 ",
+        "Area (square kilometres)": 1670.072912,
+        "Wildfire incidents (number)": 7250,
+        "Area burnt (hectares)": 1698.3576000000305,
+        "Duration of wildfire incidents (hours)": 9669.529444444444
+    },
+    {
+        "Region of England": "North East",
+        "Region Code": "E12000001",
+        "Fire and Rescue Authority": "Tyne and Wear",
+        "Fire and Rescue Authority code": "E31000043 ",
+        "Area (square kilometres)": 550.688011,
+        "Wildfire incidents (number)": 13862,
+        "Area burnt (hectares)": 78.73450000000614,
+        "Duration of wildfire incidents (hours)": 18720.67805555557
+    },
+    {
+        "Region of England": "West Midlands",
+        "Region Code": "E12000005",
+        "Fire and Rescue Authority": "Warwickshire",
+        "Fire and Rescue Authority code": "E31000036 ",
+        "Area (square kilometres)": 1977.520458,
+        "Wildfire incidents (number)": 3589,
+        "Area burnt (hectares)": 52.095999999999634,
+        "Duration of wildfire incidents (hours)": 3456.8619444444416
+    },
+    {
+        "Region of England": "West Midlands",
+        "Region Code": "E12000005",
+        "Fire and Rescue Authority": "West Midlands",
+        "Fire and Rescue Authority code": "E31000044 ",
+        "Area (square kilometres)": 901.6396556,
+        "Wildfire incidents (number)": 24160,
+        "Area burnt (hectares)": 185.98345000001282,
+        "Duration of wildfire incidents (hours)": 15117.326388888894
+    },
+    {
+        "Region of England": "South East",
+        "Region Code": "E12000008",
+        "Fire and Rescue Authority": "West Sussex",
+        "Fire and Rescue Authority code": "E31000037 ",
+        "Area (square kilometres)": 2024.511918,
+        "Wildfire incidents (number)": 3340,
+        "Area burnt (hectares)": 130.26140000000092,
+        "Duration of wildfire incidents (hours)": 14167.192222222227
+    },
+    {
+        "Region of England": "Yorkshire and The Humber",
+        "Region Code": "E12000003",
+        "Fire and Rescue Authority": "West Yorkshire",
+        "Fire and Rescue Authority code": "E31000045 ",
+        "Area (square kilometres)": 2029.258669,
+        "Wildfire incidents (number)": 21799,
+        "Area burnt (hectares)": 6934.202749999677,
+        "Duration of wildfire incidents (hours)": 19873.925277777773
+    }
+]
