@@ -104,7 +104,7 @@ def apply_custom_css():
 def main():
     apply_custom_css()
     st.markdown(
-        '<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>',
+        '<div class="logo-container"><img src="https://raw.githubusercontent.com/data-centt/Data-Analytics/main/media/data-cent1.png" alt="Logo"></div>',
         unsafe_allow_html=True)
     st.markdown('<h1 class="home-title">Exploratory Data Analysis</h1>', unsafe_allow_html=True)
     st.markdown('<p class="desc">Explore your data and make quick analyses before diving into machine learning!</p>', unsafe_allow_html=True)
