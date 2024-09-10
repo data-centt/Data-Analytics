@@ -11,8 +11,8 @@ Data-Cent is an interactive data visualization and management app built using St
 
 - **Data Upload**: Easily upload CSV files to the app for analysis.
 - **Interactive Visualizations**: Generate a variety of charts and graphs, including line plots, bar charts, scatter plots, and more.
-- **Data Filtering**: Filter and manipulate datasets directly within the app.
-- **Statistical Analysis**: Perform basic statistical analyses, such as mean, median, and standard deviation calculations.
+- **Auto Filtering**: Filtering is automatically done on the app for each visualisation.
+- **Statistical Analysis**: Observe basic statistical analyses, such as mean, median, and standard deviation calculations.
 - **Downloadable Reports**: Export your analysis and visualizations as downloadable reports.
 
 ## Getting Started
@@ -78,15 +78,15 @@ Here are some example screenshots of the Data-Cent app:
 <div align="left">
     <img src="./screenshots/data-page.jpg" alt="data" width="200">
 </div>
-#### Interactive Visualizations
 
+#### Interactive Visualizations
 <div align="left">
     <img src="./screenshots/dashboa.jpg" alt="data" width="200">
 </div>
 
 ## Contributing
 
-Contributions are welcome! Please fork the repository and submit a pull request with your changes. Ensure that your code follows the project's coding standards and includes appropriate tests.
+Contributions are welcome! Please fork the repository and submit a pull request with your changes. Ensure that your code follows the project's coding standards and includes appropriate comments for better understanding.
 
 ## License
 
