@@ -103,7 +103,9 @@ def main():
         """, unsafe_allow_html=True)
     st.button("Go to EDA Page", on_click=navigate_to, args=("EDA",))
     st.button("Go to Dashboard", on_click=navigate_to, args=("Dashboard",), key='dashboard')
+    
     option = st.radio("Select Data:", ("I have my data", "Test with sample data"))
+    
     path1 = "https://raw.githubusercontent.com/data-centt/Data-Analytics/main/sample%20data/fire.json"
     path2 = "https://raw.githubusercontent.com/data-centt/Data-Analytics/main/sample%20data/test.xlsx"
 
@@ -130,13 +132,13 @@ def main():
 
     elif option == "Test with sample data":
         if "data_option" not in st.session_state:
-            st.session_state["data_option"] = "Fire data"
+            st.session_state["data_option"] = "Pick data"
 
-        options = ["Fire data", "Employee data"]
-        current_option = st.session_state.get("data_option", "Fire data")
+        options = ["Pick data", "Fire data", "Employee data"]
+        current_option = st.session_state.get("data_option", "Pick data")
 
         if current_option not in options:
-            current_option = "Fire data"
+            current_option = "Pick data"
 
         data_option = st.selectbox("Choose data: ", options,
                                    index=options.index(current_option))
@@ -154,7 +156,8 @@ def main():
                 response = requests.get(path2)
                 if response.status_code == 200:
                     st.session_state['df'] = pd.read_excel(io.BytesIO(response.content))
-
+            elif data_option == "Pick data":
+                st.write("Select a sample data from the drop-down menu")
             else:
                 st.error("Seems like there are no sample data, please upload yours or reach out to me on linkedIn.")
 
