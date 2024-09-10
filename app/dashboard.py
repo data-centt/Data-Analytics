@@ -179,8 +179,8 @@ def render_dashboard_section(section_num):
         y_label = "Y-axis"
 
         if chart_type in ["pie chart", "treemap"]:
-            x_label = "Values"
-            y_label = "Labels"
+            x_label = "Labels"
+            y_label = "Values"
 
         if chart_type == "scatter plot":
             x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
