@@ -179,8 +179,8 @@ def render_dashboard_section(section_num):
         y_label = "Y-axis"
 
         if chart_type in ["pie chart", "treemap"]:
-            x_label = "Values"
-            y_label = "Labels"
+            x_label = "Labels"
+            y_label = "Values"
 
         if chart_type == "scatter plot":
             x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
@@ -234,7 +234,7 @@ def render_dashboard_section(section_num):
 
 def main():
     apply_advanced_css()
-    st.markdown('<div class="logo-container"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hf5w4xLfIfnr50ZYEUNOVw.jpeg" alt="Logo"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="logo-container"><img src="https://raw.githubusercontent.com/data-centt/Data-Analytics/main/media/data-cent1.png" alt="Logo"></div>', unsafe_allow_html=True)
     st.markdown('<div class="home-title">Dashboard</div>', unsafe_allow_html=True)
     st.markdown("""
         <p class="home-description">
