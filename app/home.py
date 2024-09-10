@@ -151,7 +151,7 @@ if current_page == "Home":
             <div class="home-title">Data-Cent Data Analytics! </div>
             <p class="home-description">
 
-**Short on time? Quickly go to the data page to test the functionalities.**
+**Short on time? Quickly go to the data page using the navigation above to test the app's functionalities.**
 \n This project was made to deliver powerful data analysis and visualization tools, offering a comprehensive platform for in-depth data exploration 📊. With this project, you can delve into a diverse range of datasets, perform detailed Exploratory Data Analysis (EDA) 🔍, and interact with dynamic dashboards designed to uncover valuable insights 📈. Whether you're a data enthusiast, a seasoned professional, or simply curious about data trends, this project is tailored to make data exploration both accessible and engaging for everyone 🌟.
 
 For any issues you encounter while performing analysis or navigating through the webpage, please refer to the GitHub repository linked below to create an issue 🛠️. Alternatively, feel free to reach out to me directly via LinkedIn for personalized assistance 💬. Your feedback is crucial for improving the project and ensuring a smooth user experience 🚀.
