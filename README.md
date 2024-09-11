@@ -45,7 +45,7 @@ Data-Cent is an interactive data visualization and management app built using St
 4. Run the app locally:
 
     ```bash
-    streamlit run app.py
+    streamlit run home.py
     ```
 
 ### Using the App Online
