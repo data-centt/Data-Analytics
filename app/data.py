@@ -86,7 +86,6 @@ def navigate_to(page_name):
 
 
 def main():
-    global response
     apply_css()
     st.markdown(
         '<div class="logo-container"><img src="https://raw.githubusercontent.com/data-centt/Data-Analytics/main/media/data-cent1.png" alt="Logo"></div>',
@@ -101,11 +100,8 @@ def main():
             \n Done with current data? simply double-click the reset button to upload/use another data.
             </p>
         """, unsafe_allow_html=True)
-    st.button("Go to EDA Page", on_click=navigate_to, args=("EDA",))
-    st.button("Go to Dashboard", on_click=navigate_to, args=("Dashboard",), key='dashboard')
-    
-    option = st.radio("Select Data:", ("I have my data", "Test with sample data"))
-    
+
+    option = st.radio("Select Data:", ("Upload data", "Use sample data"))
     path1 = "https://raw.githubusercontent.com/data-centt/Data-Analytics/main/sample%20data/fire.json"
     path2 = "https://raw.githubusercontent.com/data-centt/Data-Analytics/main/sample%20data/test.xlsx"
 
@@ -118,8 +114,9 @@ def main():
     if st.session_state["data_source"] != option:
         st.session_state["data_source"] = option
         st.session_state["df"] = None
+        st.session_state['file_uploaded'] = False
 
-    if option == "I have my data":
+    if option == "Upload data":
         if 'file_uploaded' not in st.session_state:
             st.session_state['file_uploaded'] = False
 
@@ -130,11 +127,18 @@ def main():
                     st.session_state['df'] = load_file(path)
                     st.session_state['file_uploaded'] = True
 
-    elif option == "Test with sample data":
+        if st.session_state['file_uploaded']:
+            if st.button("Reset"):
+                st.session_state['file_uploaded'] = False
+                st.session_state['df'] = None
+                st.session_state["data_source"] = "Upload your own data"
+
+    elif option == "Use sample data":
         if "data_option" not in st.session_state:
             st.session_state["data_option"] = "Pick data"
 
         options = ["Pick data", "Fire data", "Employee data"]
+
         current_option = st.session_state.get("data_option", "Pick data")
 
         if current_option not in options:
@@ -159,13 +163,13 @@ def main():
             elif data_option == "Pick data":
                 st.write("Select a sample data from the drop-down menu")
             else:
-                st.error("Seems like there are no sample data, please upload yours or reach out to me on linkedIn.")
+                st.error("Seems like there are no sample data, please upload yours or reach out to me on LinkedIn.")
 
     if st.session_state['df'] is not None:
         df = st.session_state['df']
 
         if df is not None:
-            st.success("File uploaded successfully! 🎉🙌 ✅👍📶")
+            st.success("File uploaded successfully! 🎉 ✅")
 
             tab1, tab2, tab3, tab4 = st.tabs(["Data Preview", "Data Information", "Column and Row Count",
                                               "Descriptive Analysis"])
@@ -194,15 +198,11 @@ def main():
                     unsafe_allow_html=True)
                 st.write(df.describe())
 
-            reset = st.button("Reset Uploaded Data")
-
-            if reset:
-                st.session_state['file_uploaded'] = False
-                st.session_state['df'] = None
-
     else:
         st.info("Please upload a file to start")
-    st.button("Home Page", on_click=navigate_to, args=("Home",))
+
+    st.button("Go to Dashboard", on_click=navigate_to, args=("Dashboard",), key='dashboard')
+    st.button("Go to EDA Page", on_click=navigate_to, args=("EDA",))
 
 
 if __name__ == "__main__":
