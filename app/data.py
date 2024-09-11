@@ -24,6 +24,7 @@ def apply_css():
             font-weight: bold;
             margin-bottom: 20px;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            font-family: Times New Roman;
         }
         .sub-header {
             font-size: 28px;
