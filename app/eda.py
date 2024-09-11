@@ -34,6 +34,7 @@ def apply_custom_css():
                 margin-bottom: 20px;
                 text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
                 text-align: center;
+                font-family: Times New Roman;
             }
 
         .sub-title {
