@@ -10,14 +10,7 @@ def navigate_to(page_name):
 def apply_advanced_css():
     st.markdown("""
         <style>
-            body {
-                background-color: inherit;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-                text-align: center;
-            }
+           
             
 
             .css-18e3th9 {
@@ -35,14 +28,15 @@ def apply_advanced_css():
                 margin-bottom: 20px;
                 text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
                 text-align: center;
+                font-family: Times New Roman;
             }
 
             .home-description {
-                font-size: 18px;
+                font-size: 16px;
                 color: var(--text-color-light); 
                 margin-top: 10px;
                 margin-bottom: 20px;
-                text-align: center;
+                text-align: left;
             }
 
             .sub-title {
@@ -98,7 +92,7 @@ def apply_advanced_css():
                 background-color: #28a745; 
                 display: block;
                 margin: auto;
-                color: #FFFFFF; /* White text */
+                color: #FFFFFF; 
                 padding: 10px 15px;
                 border: none;
                 border-radius: 5px;
@@ -111,18 +105,18 @@ def apply_advanced_css():
                 background-color: #218838; 
             }
 
-            .logo-container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-bottom: 20px;
-            }
+           .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-            .logo-container img {
-                width: 150px; 
-                max-width: 100%;
-                height: auto;
-            }
+        .logo-container img {
+            width: 200px;
+            max-width: 100%;
+            height: auto;
+        }
 
             @media (max-width: 768px) {
                 .sub-title {
@@ -179,8 +173,8 @@ def render_dashboard_section(section_num):
         y_label = "Y-axis"
 
         if chart_type in ["pie chart", "treemap"]:
-            x_label = "Labels"
-            y_label = "Values"
+            x_label = "Values"
+            y_label = "Labels"
 
         if chart_type == "scatter plot":
             x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
@@ -238,14 +232,14 @@ def main():
     st.markdown('<div class="home-title">Dashboard</div>', unsafe_allow_html=True)
     st.markdown("""
         <p class="home-description">
-        Welcome to the Dashboard Area! 🎉 This section allows you to choose from four different types of visuals for your data analysis. 📊
+Welcome to the Dashboard Area! 🎉 This section allows you to choose from four different types of visuals for your data analysis. 📊
 
 You can use a combination of these visuals to tell your data story effectively, whether it's four separate visuals or the same visual for different data partnerships. 🔄
-
+To ensure you get the best insights from your data, please make sure it has been cleaned. 
 The available visuals are standard storytelling options on MS PowerBI, including:  Pie Chart 🧩,    Treemap 🌳
  , Bar Chart 📈, and more.
 
-**How to Use:**
+_**How to Use:**_
 
 1) _Select your visual from the options provided._
 \n 2) _Click "Confirm Selection" to apply your choice._

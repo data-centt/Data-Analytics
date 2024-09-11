@@ -18,7 +18,7 @@ def apply_custom_css():
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
-                text-align: center;
+                text-align: left;
             }
         .main-container {
             padding: 20px;
@@ -34,6 +34,7 @@ def apply_custom_css():
                 margin-bottom: 20px;
                 text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
                 text-align: center;
+                font-family: Times New Roman;
             }
 
         .sub-title {
@@ -61,7 +62,7 @@ def apply_custom_css():
             }
 
             .logo-container img {
-                width: 150px; 
+                width: 200px; 
                 max-width: 100%;
                 height: auto;
             }
@@ -107,7 +108,7 @@ def main():
         '<div class="logo-container"><img src="https://raw.githubusercontent.com/data-centt/Data-Analytics/main/media/data-cent1.png" alt="Logo"></div>',
         unsafe_allow_html=True)
     st.markdown('<h1 class="home-title">Exploratory Data Analysis</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="desc">Explore your data and make quick analyses before diving into machine learning!</p>', unsafe_allow_html=True)
+    st.markdown('<p class="desc">Explore your data and make quick statistical analysis with matplotlib and seaborn to better understand before further analysis or building machine learning models.</p>', unsafe_allow_html=True)
 
     if 'df' in st.session_state and st.session_state['df'] is not None:
         df = st.session_state['df']
