@@ -209,7 +209,7 @@ def main():
                         x=st.selectbox("Labels", df.columns, key="bar_x-axis"),
                         y=st.selectbox("values", [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])], key="bar_y-axis"),
                         ax=ax,
-                        ci=None
+                        errorbar=None
                     )
                     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
                     plt.tight_layout()
@@ -226,7 +226,7 @@ def main():
                         x=st.selectbox("Labels", df.columns, key="line_x-axis"),
                         y=st.selectbox("values", [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])], key="line_y-axis"),
                         ax=ax,
-                        ci=None
+                        errorbar=None
                     )
                     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
                     plt.tight_layout()
