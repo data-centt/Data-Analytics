@@ -3,6 +3,10 @@ from eda import main as eda_main
 from data import main as data_main
 from dashboard import main as dashboard_main
 
+st.set_page_config(
+    page_title="data-cent",
+    page_icon="https://raw.githubusercontent.com/data-centt/Data-Analytics/main/media/data-cent1.png"
+)
 
 def navigate_to(page_name):
     st.session_state["current_page"] = page_name
