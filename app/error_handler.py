@@ -23,6 +23,36 @@ def load_file(file):
 
     return df
 
+def load_sample(path, file_type=None):
+    if isinstance(path, str):
+        if path.endswith(".csv"):
+            df = pd.read_csv(path, encoding='utf-8', encoding_errors='ignore')
+        elif path.endswith((".xlsx", ".xls")):
+            df = pd.read_excel(path)
+        elif path.endswith(".json"):
+            df = pd.read_json(path)
+        else:
+            st.error("Unsupported file type")
+            return None
+    elif hasattr(path, 'read'):
+        if file_type == 'csv':
+            df = pd.read_csv(path, encoding='utf-8', encoding_errors='ignore')
+        elif file_type in ['xlsx', 'xls']:
+            df = pd.read_excel(path)
+        elif file_type == 'json':
+            df = pd.read_json(path)
+        else:
+            st.error("Unsupported file type")
+            return None
+    else:
+        st.error("Invalid input")
+        return None
+
+    for col in df.columns:
+        if pd.api.types.is_datetime64_any_dtype(df[col]):
+            df[col] = df[col].dt.date
+    return df
+
 
 class FileError(Exception):
     pass
