@@ -81,8 +81,10 @@ def apply_css():
         unsafe_allow_html=True
     )
 
+
 def navigate_to(page_name):
     st.session_state["current_page"] = page_name
+
 
 def main():
     apply_css()
@@ -100,23 +102,18 @@ def main():
         </p>
     """, unsafe_allow_html=True)
 
-    # Initialize the session state for the radio option if it does not exist
     if 'radio_option' not in st.session_state:
         st.session_state['radio_option'] = "Upload data"
 
-    # Use the session state value for the radio button
     option = st.radio("Select Data:", ("Upload data", "Use sample data"),
                       index=("Upload data", "Use sample data").index(st.session_state['radio_option']))
 
-    # Update the session state when the radio button changes
     if option != st.session_state['radio_option']:
         st.session_state['radio_option'] = option
 
-    # Sample data paths
     path1 = "https://raw.githubusercontent.com/data-centt/Data-Analytics/main/sample%20data/fire.json"
     path2 = "https://raw.githubusercontent.com/data-centt/Data-Analytics/main/sample%20data/test.xlsx"
 
-    # Initialize session state for data management
     if 'df' not in st.session_state:
         st.session_state['df'] = None
 
@@ -139,28 +136,41 @@ def main():
     elif option == "Use sample data":
         if 'data_option' not in st.session_state:
             st.session_state['data_option'] = "Pick data"
+        if 'data_loaded' not in st.session_state:
+            st.session_state['data_loaded'] = False
 
         options = ["Pick data", "Fire data", "Employee data"]
-        current_option = st.session_state.get("data_option", "Pick data")
+        data_option = st.selectbox("Choose data: ", options, index=options.index(st.session_state['data_option']))
 
-        # Keep the current option if already set, else reset to "Pick data"
-        data_option = st.selectbox("Choose data: ", options, index=options.index(current_option))
+        if data_option != st.session_state["data_option"]:
+            st.session_state["data_option"] = data_option
+            st.session_state["df"] = None
+            st.session_state['data_loaded'] = False
 
-        # Load data if not already loaded for the selected sample data option
-        if data_option != "Pick data" and st.session_state['df'] is None:
+        if data_option != "Pick data" and not st.session_state['data_loaded']:
             if data_option == "Fire data":
                 response = requests.get(path1)
                 if response.status_code == 200:
-                    st.session_state['df'] = pd.read_json(io.StringIO(response.text))
+                    fire_data = pd.read_json(io.StringIO(response.text))
+                    for col in fire_data:
+                        if pd.api.types.is_datetime64_any_dtype(fire_data[col]):
+                            fire_data[col] = fire_data[col].dt.date
+                    st.session_state['df'] = fire_data
+                    st.session_state['data_loaded'] = True
+
             elif data_option == "Employee data":
                 response = requests.get(path2)
                 if response.status_code == 200:
-                    st.session_state['df'] = pd.read_excel(io.BytesIO(response.content))
+                    emp = pd.read_excel(io.BytesIO(response.content))
+                    for col in emp:
+                        if pd.api.types.is_datetime64_any_dtype(emp[col]):
+                            emp[col] = emp[col].dt.date
+                    st.session_state['df'] = emp
+                    st.session_state['data_loaded'] = True
 
         if data_option == "Pick data":
             st.write("Select a sample data from the drop-down menu")
 
-    # If data exists in session state, display it
     if st.session_state['df'] is not None:
         df = st.session_state['df']
         st.success("File uploaded successfully! 🎉 ✅")
