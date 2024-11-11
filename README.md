@@ -50,7 +50,7 @@ Data-Cent is an interactive data visualization and management app built using St
 
 ### Using the App Online
 
-Note: App might be asleep
+Note: App might be asleep, just start to wake up the app.
 
 No installation is needed! Visit the [Data-Cent Website](https://data-cent.streamlit.app) to use the app directly in your browser.
 
