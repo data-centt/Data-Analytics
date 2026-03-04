@@ -8,7 +8,6 @@
 Data-Cent is an interactive data visualisation and management app built using Streamlit. It allows users to upload, analyze, and visualize datasets easily, providing a user-friendly interface for exploring data insights. Visit the [Data-Cent Website](https://data-cent.streamlit.app) to use the app directly online without any setup.
 
 ## Features
-
 - **Data Upload**: Easily upload CSV files to the app for analysis.
 - **Interactive Visualisations**: Generate a variety of charts and graphs, including line plots, bar charts, scatter plots, and more.
 - **Auto Filtering**: The app automatically applies filters to each visualizsation.
