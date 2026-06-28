@@ -1,0 +1,22 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "data-cent",
+      "runtimeExecutable": "streamlit",
+      "runtimeArgs": [
+        "run",
+        "app/home.py",
+        "--server.port",
+        "8501",
+        "--server.headless",
+        "true",
+        "--server.enableCORS",
+        "false",
+        "--server.enableXsrfProtection",
+        "false"
+      ],
+      "port": 8501
+    }
+  ]
+}

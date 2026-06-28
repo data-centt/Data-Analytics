@@ -1,7 +1,6 @@
 openpyxl
 pandas
 streamlit
-io
 requests
 seaborn
 matplotlib
