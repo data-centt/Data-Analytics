@@ -19,7 +19,7 @@ def load_file(file):
 
     for col in df.columns:
         if pd.api.types.is_datetime64_any_dtype(df[col]):
-            df[col] = pd.to_datetime(df[col]).dt.strftime("%d/%m/%Y")
+            df[col] = df[col].dt.date
 
     return df
 

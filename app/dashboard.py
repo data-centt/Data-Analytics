@@ -193,7 +193,12 @@ def render_dashboard_section(section_num):
             y_columns = df.columns
 
         x_column = st.selectbox(f"Choose {x_label} for Visualization {section_num}:", x_columns, key=f'x_column_{section_num}')
-        y_column = st.selectbox(f"Choose {y_label} for Visualization {section_num}:", [""] + list(y_columns), key=f'y_column_{section_num}') if chart_type not in ["histogram"] else None
+
+        # Charts that need a Y get a real column preselected; charts where Y is
+        # optional (bar/pie/treemap fall back to X) keep the blank "" choice.
+        y_optional = chart_type in ["bar chart", "pie chart", "treemap"]
+        y_options = ([""] + list(y_columns)) if y_optional else list(y_columns)
+        y_column = st.selectbox(f"Choose {y_label} for Visualization {section_num}:", y_options, key=f'y_column_{section_num}') if chart_type != "histogram" else None
 
         additional_selected_col = []
         if chart_type in ["area chart", "line chart"] and st.checkbox(f"Add Additional values for Y-axis in Visualization {section_num}", key=f'add_values_{section_num}'):
