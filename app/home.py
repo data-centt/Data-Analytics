@@ -10,15 +10,16 @@ st.set_page_config(
     page_title="Data-Cent",
     page_icon=LOGO_PATH,
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 apply_theme()
 st.logo(LOGO_PATH)
 
 
 def home_page():
-    left, mid, right = st.columns([1, 2, 1])
+    left, mid, right = st.columns([2, 1, 2])
     with mid:
-        st.image(LOGO_PATH, use_container_width=True)
+        st.image(LOGO_PATH, width=170)
 
     st.markdown("<h1 style='text-align:center'>Data-Cent Data Analytics</h1>", unsafe_allow_html=True)
     st.markdown(
@@ -71,9 +72,9 @@ def home_page():
 
 PAGES = {
     "Home": st.Page(home_page, title="Home", icon=":material/home:", default=True),
-    "Data": st.Page(data_main, title="Data", icon=":material/cloud_upload:"),
-    "Dashboard": st.Page(dashboard_main, title="Dashboard", icon=":material/dashboard:"),
-    "EDA": st.Page(eda_main, title="EDA", icon=":material/insights:"),
+    "Data": st.Page(data_main, title="Data", icon=":material/cloud_upload:", url_path="data"),
+    "Dashboard": st.Page(dashboard_main, title="Dashboard", icon=":material/dashboard:", url_path="dashboard"),
+    "EDA": st.Page(eda_main, title="EDA", icon=":material/insights:", url_path="eda"),
 }
 st.session_state["_pages"] = PAGES
 
