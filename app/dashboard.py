@@ -121,7 +121,8 @@ def main():
             render_dashboard_section(i, df)
     else:
         st.warning("No dataset available yet — load one on the Data page first.")
-        st.button("Go to Data page →", on_click=goto, args=("Data",))
+        if st.button("Go to Data page →"):
+            goto("Data")
 
 
 if __name__ == "__main__":

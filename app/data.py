@@ -114,8 +114,12 @@ def main():
 
         st.divider()
         nav1, nav2 = st.columns(2)
-        nav1.button("Go to Dashboard →", use_container_width=True, on_click=goto, args=("Dashboard",))
-        nav2.button("Go to EDA →", use_container_width=True, on_click=goto, args=("EDA",))
+        with nav1:
+            if st.button("Go to Dashboard →", use_container_width=True):
+                goto("Dashboard")
+        with nav2:
+            if st.button("Go to EDA →", use_container_width=True):
+                goto("EDA")
 
     else:
         st.info("Please upload or select a dataset to get started.")

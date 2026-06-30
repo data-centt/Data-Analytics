@@ -39,8 +39,8 @@ def home_page():
                 "Upload a CSV, Excel or JSON file (or pick a sample), then see a "
                 "preview, column info and descriptive statistics at a glance."
             )
-            st.button("Open Data", key="cta_data", use_container_width=True,
-                      on_click=goto, args=("Data",))
+            if st.button("Open Data", key="cta_data", use_container_width=True):
+                goto("Data")
 
     with col2:
         with st.container(border=True):
@@ -49,8 +49,8 @@ def home_page():
                 "Build interactive Plotly visuals — bar, line, area, scatter, "
                 "histogram, pie and treemap — and tell your data story."
             )
-            st.button("Open Dashboard", key="cta_dash", use_container_width=True,
-                      on_click=goto, args=("Dashboard",))
+            if st.button("Open Dashboard", key="cta_dash", use_container_width=True):
+                goto("Dashboard")
 
     with col3:
         with st.container(border=True):
@@ -59,8 +59,8 @@ def home_page():
                 "Run quick exploratory analysis with ready-made Seaborn charts to "
                 "understand your data before modelling."
             )
-            st.button("Open EDA", key="cta_eda", use_container_width=True,
-                      on_click=goto, args=("EDA",))
+            if st.button("Open EDA", key="cta_eda", use_container_width=True):
+                goto("EDA")
 
     st.divider()
     st.caption(
