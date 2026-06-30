@@ -176,27 +176,31 @@ def render_dashboard_section(section_num):
             x_label = "Values"
             y_label = "Labels"
 
+        numeric_cols = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+        categorical_cols = [col for col in df.columns if not pd.api.types.is_numeric_dtype(df[col])]
+
         if chart_type == "scatter plot":
-            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
-            y_columns = x_columns
-        elif chart_type in ["treemap", "bar chart", "line chart", "area chart"]:
-            x_columns = [col for col in df.columns if not pd.api.types.is_numeric_dtype(df[col])]
-            y_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+            x_columns = numeric_cols
+            y_columns = numeric_cols
+        elif chart_type in ["bar chart", "line chart", "area chart"]:
+            x_columns = categorical_cols
+            y_columns = numeric_cols
         elif chart_type == "histogram":
-            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+            x_columns = numeric_cols
             y_columns = []
-        elif chart_type in ["treemap", "pie chart"]:
-            y_columns = [col for col in df.columns if not pd.api.types.is_numeric_dtype(df[col])]
-            x_columns = [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])]
+        elif chart_type in ["pie chart", "treemap"]:
+            # X = Values (numeric), Y = Labels (categorical)
+            x_columns = numeric_cols
+            y_columns = categorical_cols
         else:
             x_columns = df.columns
             y_columns = df.columns
 
         x_column = st.selectbox(f"Choose {x_label} for Visualization {section_num}:", x_columns, key=f'x_column_{section_num}')
 
-        # Charts that need a Y get a real column preselected; charts where Y is
-        # optional (bar/pie/treemap fall back to X) keep the blank "" choice.
-        y_optional = chart_type in ["bar chart", "pie chart", "treemap"]
+        # Y is optional only for a bar chart (it falls back to a count); every
+        # other chart needs Y, so preselect a real column instead of a blank "".
+        y_optional = chart_type == "bar chart"
         y_options = ([""] + list(y_columns)) if y_optional else list(y_columns)
         y_column = st.selectbox(f"Choose {y_label} for Visualization {section_num}:", y_options, key=f'y_column_{section_num}') if chart_type != "histogram" else None
 
@@ -222,9 +226,9 @@ def render_dashboard_section(section_num):
         if config['chart_type'] == "histogram":
             vis.histogram(df, x_col)
         elif config['chart_type'] == "treemap":
-            vis.treemap(df, x_col, y_col if y_col else x_col)
+            vis.treemap(df, labels=y_col, values=x_col)
         elif config['chart_type'] == "pie chart":
-            vis.pie_chart(df, values=x_col, names=y_col if y_col else x_col)
+            vis.pie_chart(df, values=x_col, names=y_col)
         else:
             vis.visualize(df, config['chart_type'], x_col, y_col, add_col=add_cols)
 

@@ -116,11 +116,19 @@ def main():
         if df is not None:
             if st.checkbox("PairPlots", key="pairplot"):
                 st.markdown(f'<h2 class="sub-title">PairPlots</h2>', unsafe_allow_html=True)
-                with st.container():
-                    st.markdown('<div class="plot-container">', unsafe_allow_html=True)
-                    fig = sns.pairplot(df)
-                    st.pyplot(fig)
-                    st.markdown('</div>', unsafe_allow_html=True)
+                numeric_df = df.select_dtypes(include="number")
+                if numeric_df.shape[1] < 2:
+                    st.warning("Pair plots need at least two numeric columns.")
+                else:
+                    if numeric_df.shape[1] > 8:
+                        st.info("Showing the first 8 numeric columns to keep the pair plot readable.")
+                        numeric_df = numeric_df.iloc[:, :8]
+                    with st.container():
+                        st.markdown('<div class="plot-container">', unsafe_allow_html=True)
+                        with st.spinner("Building pair plot..."):
+                            fig = sns.pairplot(numeric_df)
+                        st.pyplot(fig)
+                        st.markdown('</div>', unsafe_allow_html=True)
 
             if st.checkbox("Boxplot", key="boxplot"):
                 st.markdown(f'<h2 class="sub-title">Boxplot</h2>', unsafe_allow_html=True)
@@ -138,7 +146,7 @@ def main():
                         ),
                         ax=ax
                     )
-                    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+                    ax.tick_params(axis='x', rotation=90)
                     plt.tight_layout()
                     st.pyplot(fig)
                     st.markdown('</div>', unsafe_allow_html=True)
@@ -178,7 +186,7 @@ def main():
                     st.markdown('<div class="plot-container">', unsafe_allow_html=True)
                     fig, ax = plt.subplots(figsize=(10, 5))
                     sns.countplot(data=df, x=st.selectbox("axis", df.columns, key="axis"), ax=ax)
-                    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+                    ax.tick_params(axis='x', rotation=90)
                     plt.tight_layout()
                     st.pyplot(fig)
                     st.markdown('</div>', unsafe_allow_html=True)
@@ -194,7 +202,7 @@ def main():
                         y=st.selectbox("y-axis", [col for col in df.columns if pd.api.types.is_numeric_dtype(df[col])], key="violin_y-axis"),
                         ax=ax
                     )
-                    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+                    ax.tick_params(axis='x', rotation=90)
                     plt.tight_layout()
                     st.pyplot(fig)
                     st.markdown('</div>', unsafe_allow_html=True)
@@ -211,7 +219,7 @@ def main():
                         ax=ax,
                         errorbar=None
                     )
-                    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+                    ax.tick_params(axis='x', rotation=90)
                     plt.tight_layout()
                     st.pyplot(fig)
                     st.markdown('</div>', unsafe_allow_html=True)
@@ -228,7 +236,7 @@ def main():
                         ax=ax,
                         errorbar=None
                     )
-                    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+                    ax.tick_params(axis='x', rotation=90)
                     plt.tight_layout()
                     st.pyplot(fig)
                     st.markdown('</div>', unsafe_allow_html=True)

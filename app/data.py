@@ -98,7 +98,7 @@ def main():
         <p class="home-description">
         This is where you upload your data, you have two options of data to test the app, choose a data and click ok for it to work,
         After upload, simply press the 'X' to remove the upload window and continue. \n You can see the brief statistical details of your data, after getting the details, you can click the EDA button for Exploratory data analysis or the dashboard to enjoy the full experience of plotly express library.
-        \n Done with current data? simply double-click the reset button to upload/use another data.
+        \n Done with current data? simply click the reset button to upload/use another data.
         </p>
     """, unsafe_allow_html=True)
 
@@ -120,9 +120,15 @@ def main():
     if option == "Upload data":
         if 'file_uploaded' not in st.session_state:
             st.session_state['file_uploaded'] = False
+        if 'uploader_key' not in st.session_state:
+            st.session_state['uploader_key'] = 0
 
         if not st.session_state['file_uploaded']:
-            path = st.file_uploader("Upload file", type=["csv", "json", "xlsx", "xls"])
+            path = st.file_uploader(
+                "Upload file",
+                type=["csv", "json", "xlsx", "xls"],
+                key=f"uploader_{st.session_state['uploader_key']}"
+            )
             if path:
                 with st.spinner('Loading data...'):
                     st.session_state['df'] = load_file(path)
@@ -132,6 +138,8 @@ def main():
             if st.button("Reset"):
                 st.session_state['file_uploaded'] = False
                 st.session_state['df'] = None
+                # New key => a fresh, empty uploader so the old file isn't reloaded.
+                st.session_state['uploader_key'] += 1
 
     elif option == "Use sample data":
         if 'data_option' not in st.session_state:
@@ -148,25 +156,22 @@ def main():
             st.session_state['data_loaded'] = False
 
         if data_option != "Pick data" and not st.session_state['data_loaded']:
-            if data_option == "Fire data":
-                response = requests.get(path1)
-                if response.status_code == 200:
-                    fire_data = pd.read_json(io.StringIO(response.text))
-                    for col in fire_data:
-                        if pd.api.types.is_datetime64_any_dtype(fire_data[col]):
-                            fire_data[col] = fire_data[col].dt.date
-                    st.session_state['df'] = fire_data
-                    st.session_state['data_loaded'] = True
-
-            elif data_option == "Employee data":
-                response = requests.get(path2)
-                if response.status_code == 200:
-                    emp = pd.read_excel(io.BytesIO(response.content))
-                    for col in emp:
-                        if pd.api.types.is_datetime64_any_dtype(emp[col]):
-                            emp[col] = emp[col].dt.date
-                    st.session_state['df'] = emp
-                    st.session_state['data_loaded'] = True
+            url = path1 if data_option == "Fire data" else path2
+            try:
+                with st.spinner('Loading sample data...'):
+                    response = requests.get(url, timeout=15)
+                    response.raise_for_status()
+                    if data_option == "Fire data":
+                        sample = pd.read_json(io.StringIO(response.text))
+                    else:
+                        sample = pd.read_excel(io.BytesIO(response.content))
+                for col in sample:
+                    if pd.api.types.is_datetime64_any_dtype(sample[col]):
+                        sample[col] = sample[col].dt.date
+                st.session_state['df'] = sample
+                st.session_state['data_loaded'] = True
+            except requests.exceptions.RequestException as e:
+                st.error(f"Could not download the sample data. Please try again. ({e})")
 
         if data_option == "Pick data":
             st.write("Select a sample data from the drop-down menu")

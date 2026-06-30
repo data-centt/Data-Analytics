@@ -133,7 +133,7 @@ class Visualization:
     def histogram(self, df, column):
         try:
             self.error_handler.handle_column(df, column)
-            bins = st.slider("input bins", min_value=2, max_value=500, step=1)
+            bins = st.slider("input bins", min_value=2, max_value=500, value=20, step=1)
             fig = px.histogram(data_frame=df, x=column, nbins=bins, title=f"Histogram of {column}")
             fig.update_layout(
                 title={
@@ -301,7 +301,7 @@ class Visualization:
                 showlegend=True
             )
             st.plotly_chart(fig)
-        except ChartError as e:
+        except (ChartError, ColumnError) as e:
             st.error(str(e))
 
     def area(self, df, x_col, y_col, add_col=None):
@@ -329,7 +329,7 @@ class Visualization:
                         st.warning(f"{col} not compatible")
             fig.update_layout(
                 title={
-                    'text': f"Line Chart of {x_col} against {y_col}",
+                    'text': f"Area Chart of {x_col} against {y_col}",
                     'y': 0.9,
                     'x': 0.5,
                     'xanchor': 'center',
@@ -377,7 +377,7 @@ class Visualization:
                 plot_bgcolor='white'
             )
             st.plotly_chart(fig)
-        except ChartError as e:
+        except (ChartError, ColumnError) as e:
             st.error(str(e))
 
     def visualize(self, df, chart_type, x_column, y_column=None, add_col=None):

@@ -1,11 +1,8 @@
-import os.path
 import pandas as pd
 import streamlit as st
 
 
 def load_file(file):
-
-  
     file_path = file.name
     if file_path.endswith(".csv"):
         df = pd.read_csv(file, encoding='utf-8', encoding_errors='ignore')
@@ -23,40 +20,6 @@ def load_file(file):
 
     return df
 
-def load_sample(path, file_type=None):
-    if isinstance(path, str):
-        if path.endswith(".csv"):
-            df = pd.read_csv(path, encoding='utf-8', encoding_errors='ignore')
-        elif path.endswith((".xlsx", ".xls")):
-            df = pd.read_excel(path)
-        elif path.endswith(".json"):
-            df = pd.read_json(path)
-        else:
-            st.error("Unsupported file type")
-            return None
-    elif hasattr(path, 'read'):
-        if file_type == 'csv':
-            df = pd.read_csv(path, encoding='utf-8', encoding_errors='ignore')
-        elif file_type in ['xlsx', 'xls']:
-            df = pd.read_excel(path)
-        elif file_type == 'json':
-            df = pd.read_json(path)
-        else:
-            st.error("Unsupported file type")
-            return None
-    else:
-        st.error("Invalid input")
-        return None
-
-    for col in df.columns:
-        if pd.api.types.is_datetime64_any_dtype(df[col]):
-            df[col] = df[col].dt.date
-    return df
-
-
-class FileError(Exception):
-    pass
-
 
 class ColumnError(Exception):
     pass
@@ -67,33 +30,9 @@ class ChartError(Exception):
 
 
 class ErrorHandler:
-    def __init__(self):
-        pass
-
-    def handle_file_error(self, file_name):
-        if not file_name:
-            raise FileError("No file found")
-        elif not os.path.exists(file_name):
-            raise FileError("File does not exist")
-        elif not file_name.endswith((".csv", ".xlsx", ".xls", ".json")):
-            raise FileError("Wrong File, please upload a supported format, csv, excel or json")
-
-    def chart_error(self, chart_type, available_charts, df=None, x_col=None, y_col=None):
+    def chart_error(self, chart_type, available_charts):
         if chart_type not in available_charts:
             raise ChartError(f"{chart_type} not supported, please choose from: {', '.join(available_charts)}")
-        if df is not None:
-            if chart_type in ["scatter"]:
-                if x_col and not pd.api.types.is_numeric_dtype(df[x_col]):
-                    raise ColumnError(f"{x_col} is not compatible")
-                if y_col and not pd.api.types.is_numeric_dtype(df[y_col]):
-                    raise ColumnError(f"{y_col} is not compatible with this chart")
-            elif chart_type in ["bar", "box", "histogram", "area"]:
-                if y_col and not pd.api.types.is_numeric_dtype(df[y_col]):
-                    raise ColumnError(f"{y_col} is not compatible with this chart")
-            elif chart_type in ["treemap", "pie"]:
-                if x_col and not pd.api.types.is_numeric_dtype(df[x_col]):
-                    raise ColumnError(f"{x_col} is not compatible with this chart")
-
 
     def handle_column(self, df, column_name):
         if df is None or not hasattr(df, 'columns'):

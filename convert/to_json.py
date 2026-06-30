@@ -6,7 +6,7 @@ import os
 def process_file(path):
     if path.endswith(".csv"):
         data = pd.read_csv(path)
-    elif path.endswith(("xlsx", "xls")):
+    elif path.endswith((".xlsx", ".xls")):
         data = pd.read_excel(path)
     else:
         raise ValueError("File not compatible, please reassess or upload a new file")
